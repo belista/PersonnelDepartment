@@ -70,6 +70,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Services\DataProvider\EmployeeContext.cs" />
+    <Compile Include="Core\Services\DataProvider\EmployeeService.cs" />
+    <Compile Include="Core\Services\DataProvider\IEmployeeService.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
