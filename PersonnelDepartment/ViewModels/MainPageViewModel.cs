@@ -115,8 +115,10 @@ namespace PersonnelDepartment.ViewModels
             {
                 var str = "%" + QueryString + "%";
 
+                var param = new System.Data.SqlClient.SqlParameter("@queryString", $"%{QueryString}%");
+
                 var employees = _db.Database.SqlQuery<Employee>(
-                    $"SELECT * FROM Employees WHERE FirstSurname LIKE {str} OR Name LIKE {str} OR Patronymic LIKE {str} OR RegistrationNumber LIKE {str}");
+                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @queryString OR Name LIKE @queryString OR Patronymic LIKE @queryString OR RegistrationNumber LIKE @queryString",param);
 
                 Employees.Clear();
 
