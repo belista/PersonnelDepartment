@@ -104,6 +104,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                     if (updatedEmployee == null)
                     {
                         _db.Employees.Add(employee);
+                        _db.SaveChanges();
                     }
                     else
                     {

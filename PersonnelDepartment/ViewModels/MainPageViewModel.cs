@@ -113,7 +113,7 @@ namespace PersonnelDepartment.ViewModels
                 var str = "%" + QueryString + "%";
 
                 var employees = _db.Database.SqlQuery<Employee>(
-                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @{str} OR Name LIKE @{str} OR Patronymic LIKE @{str} OR RegistrationNumber LIKE @{str}");
+                    $"SELECT * FROM Employees WHERE FirstSurname LIKE {str} OR Name LIKE {str} OR Patronymic LIKE {str} OR RegistrationNumber LIKE {str}");
 
                 Employees.Clear();
 
