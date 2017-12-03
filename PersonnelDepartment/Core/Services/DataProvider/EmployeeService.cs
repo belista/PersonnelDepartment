@@ -106,5 +106,32 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                 }
             });
         }
+
+        public Task<bool> UpdateAsync(Employee employee)
+        {
+            return Task.Run(() =>
+            {
+                try
+                {
+                    var updatedEmployee = _db.Employees.SingleOrDefault(e => e.Id == employee.Id);
+                    if (updatedEmployee != null)
+                    {
+                        var employeeType = updatedEmployee.GetType();
+                        foreach (var item in employeeType.GetProperties().Skip(1))
+                        {
+                            item.SetValue(updatedEmployee, employeeType.GetProperty(item.Name).GetValue(employee));
+                        }
+                        _db.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+                catch (Exception ex)
+                {
+                    Debug.Fail(ex.Message);
+                    return false;
+                }
+            });
+        }
     }
 }

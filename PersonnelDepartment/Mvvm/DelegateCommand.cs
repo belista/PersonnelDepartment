@@ -14,7 +14,6 @@ namespace PersonnelDepartment.Mvvm
         private Action _action;
         #endregion
 
-
         public DelegateCommand(Action action) =>
             _action = action ?? throw new ArgumentNullException(nameof(action));
 

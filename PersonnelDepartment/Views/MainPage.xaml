@@ -5,10 +5,93 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PersonnelDepartment.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="300" d:DesignWidth="300"
-      Title="MainPage">
+      Title="MainPage"
+      ShowsNavigationUI="False"
+      x:Name="View">
 
     <Grid>
-        
-    </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Stretch"
+                        Background="Gray">
+                <Button Content="Добавить" 
+                    Height="20"
+                    Margin="5"
+                    Command="{Binding AddCommand}"/>
+                <Button Content="Удалить" 
+                        Height="20"
+                        Margin="5"
+                        Command="{Binding RemoveCommand}"/> 
+            </StackPanel>
+            <TextBox Width="250" 
+                     HorizontalAlignment="Center"
+                     Height="20"
+                     Grid.Row="1"
+                     Text="{Binding Search, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListView ItemsSource="{Binding Employees}"
+                  x:Name="EmployeeList"
+                  SelectedItem="{Binding ItemEmployee}"
+                  Grid.Row="2">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="1">
+                                <TextBlock Text="{Binding FirstSurname}"
+                                       Margin="2" />
+                                <TextBlock Text="{Binding Name}"
+                                       Margin="2" />
+                                <TextBlock Text="{Binding Patronymic}"
+                                       Margin="2" />
+                                <TextBlock Text="{Binding RegistrationNumber}"
+                                       Margin="2" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+            <ContentPresenter Grid.Column="1"
+                              Content="{Binding ElementName=EmployeeList, Path=SelectedItem}">
+                <ContentPresenter.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBox Text="{Binding Id}"/>
+                            <TextBox Text="{Binding FirstSurname}"/>
+                            <TextBox Text="{Binding SecondSurname}"/>
+                            <TextBox Text="{Binding ThirdSurname}"/>
+                            <TextBox Text="{Binding Name}"/>
+                            <TextBox Text="{Binding Patronymic}"/>
+                            <DatePicker SelectedDate="{Binding DateOfBirth}"/>
+                            <TextBox Text="{Binding PassportInfo}"/>
+                            <TextBox Text="{Binding Registration}"/>
+                            <TextBox Text="{Binding RegistrationNumber}"/>
+                            <TextBox Text="{Binding Phone}"/>
+                            <TextBox Text="{Binding FirstPosition}"/>
+                            <TextBox Text="{Binding SecondPosition}"/>
+                            <TextBox Text="{Binding ThirdPosition}"/>
+                            <DatePicker SelectedDate="{Binding EmploymentDate}"/>
+                            <TextBox Text="{Binding FirstOrder}"/>
+                            <CheckBox IsChecked="{Binding Dismissed}"/>
+                            <DatePicker SelectedDate="{Binding DateOfDismissal}"/>
+                            <TextBox Text="{Binding SecondOrder}"/>
+                            <DatePicker SelectedDate="{Binding WorkDays}"/>
+                            <TextBox Text="{Binding Additionally}"/>
+                            <Button Content="Сохранить"
+                                    Command="{Binding ElementName=View, Path=DataContext.SaveCommand}"/>
+                            <Button Content="Отмена"/>
+                    </StackPanel>
+                    </DataTemplate>
+                </ContentPresenter.ContentTemplate>
+            </ContentPresenter>
+        </Grid>
 </Page>

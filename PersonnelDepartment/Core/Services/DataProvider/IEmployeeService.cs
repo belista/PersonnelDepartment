@@ -13,5 +13,6 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         Task<bool> RemoveAsync(Employee user);
         Task<bool> AddAsync(Employee user);
         Task<Employee> GetById(int id);
+        Task<bool> UpdateAsync(Employee employee);
     }
 }
