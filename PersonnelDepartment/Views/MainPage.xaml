@@ -39,34 +39,64 @@
                      Grid.Row="1"
                      Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}" />
 
-            <ListView ItemsSource="{Binding Employees}"
-                      x:Name="EmployeeList"
+            <ListView x:Name="EmployeeList"
+                      ItemsSource="{Binding Employees}"
                       SelectedItem="{Binding SelectedEmployee}"
                       Grid.Row="2">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" 
+                        <StackPanel Orientation="Horizontal"
                                     Grid.Row="1">
                             <TextBlock Text="{Binding FullName}"
-                                       Margin="2" /> 
+                                       Margin="2" />
                             <TextBlock Text="{Binding RegistrationNumber}"
                                        Margin="2" />
                             <Button Content="Delete"
-                                    Command="{Binding ElementName=View, Path=DataContext.RemoveCommand}" 
-                                    CommandParameter="{Binding}" /> 
+                                    Command="{Binding ElementName=View, Path=DataContext.RemoveCommand}"
+                                    CommandParameter="{Binding}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Grid>
 
+
+        <Grid x:Name="PreloaderHost"
+              Grid.Column="1">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Viewbox Width="200"
+                         Height="200">
+                    <Image Source="pack://application:,,,/Assets/smile.png" />
+                </Viewbox>
+                <TextBlock Text="Ни одна запись не выбрана :("
+                           TextAlignment="Center"
+                           FontSize="32"
+                           Margin="0, 24, 0, 0" />
+            </StackPanel>
+        </Grid>
         <ContentPresenter x:Name="ContentPresenter"
-                          Content="{Binding ElementName=EmployeeList, Path=SelectedItem}"
-                          Visibility="Collapsed"
+                          Content="{Binding ElementName=EmployeeList, Path=SelectedItem}" 
                           Grid.Column="1">
+            <ContentPresenter.Style>
+                <Style TargetType="ContentPresenter">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=EmployeeList, Path=SelectedItem}"
+                                     Value="{x:Null}">
+                            <DataTrigger.Setters>
+                                <Setter Property="Visibility">
+                                    <Setter.Value>
+                                        <Visibility>Collapsed</Visibility>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger.Setters>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentPresenter.Style>
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
-                    <ScrollViewer>
+                    <ScrollViewer Background="White">
                         <StackPanel d:DataContext="{d:DesignInstance Type=models:Employee}">
 
                             <TextBox Text="{Binding FirstSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -87,7 +117,8 @@
                             <CheckBox IsChecked="{Binding Dismissed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <DatePicker SelectedDate="{Binding DateOfDismissal, Mode=TwoWay}" />
                             <TextBox Text="{Binding SecondOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock Text="{Binding WorkDays}" Margin="8" />
+                            <TextBlock Text="{Binding WorkDays}"
+                                       Margin="8" />
                             <TextBox Text="{Binding Additionally, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                             <Grid>
@@ -112,47 +143,5 @@
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>
-        <Grid x:Name="PreloaderHost"
-              Grid.Column="1">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <Viewbox Width="200"
-                         Height="200">
-                    <Image Source="pack://application:,,,/Assets/smile.png" />
-                </Viewbox>
-                <TextBlock Text="Ни одна запись не выбрана :("
-                           TextAlignment="Center"
-                           FontSize="32"
-                           Margin="0, 24, 0, 0" />
-            </StackPanel>
-        </Grid>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="ContentStates">
-                <VisualState x:Name="Preloader" />
-                <VisualState x:Name="Content">
-                    <VisualState.Storyboard>
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                           Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Visible</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PreloaderHost"
-                                                           Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0">
-                                    <DiscreteObjectKeyFrame.Value>
-                                        <Visibility>Collapsed</Visibility>
-                                    </DiscreteObjectKeyFrame.Value>
-                                </DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState.Storyboard>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

@@ -102,7 +102,7 @@ namespace PersonnelDepartment.ViewModels
 
         private void RemoveEmployee(Employee employee)
         {
-
+            Employees.Remove(employee); 
         }
 
 
