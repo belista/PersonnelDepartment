@@ -23,15 +23,12 @@
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Stretch"
                         Background="Gray">
+                <TextBlock Text="Employees" VerticalAlignment="Center" Margin="12"/>
                 <Button Content="Добавить"
                         Height="20"
-                        Margin="5"
-                        Command="{Binding AddCommand}" />
-
-                <Button Content="Удалить"
-                        Height="20"
-                        Margin="5"
-                        Command="{Binding RemoveCommand}" />
+                        Margin="5,15"
+                        Command="{Binding AddCommand}" 
+                        HorizontalAlignment="Right"/>
             </StackPanel>
             <TextBox Width="250"
                      HorizontalAlignment="Center"

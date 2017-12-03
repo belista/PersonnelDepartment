@@ -100,9 +100,12 @@ namespace PersonnelDepartment.ViewModels
             await _employeeService.SaveOrUpdateAsync(empl);
 
 
-        private void RemoveEmployee(Employee employee)
+        private async void RemoveEmployee(Employee employee)
         {
-            Employees.Remove(employee); 
+            if (await _employeeService.RemoveAsync(employee))
+            {
+                Employees.Remove(employee);
+            }
         }
 
 
