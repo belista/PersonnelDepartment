@@ -8,7 +8,7 @@ using System.Linq;
 namespace PersonnelDepartment.ViewModels
 {
     /// <summary>
-    /// 
+    /// Вью модель для MainPage.xaml
     /// </summary>
     public class MainPageViewModel : INotifyPropertyChanged
     {
