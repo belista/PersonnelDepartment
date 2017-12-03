@@ -1,11 +1,10 @@
-﻿using System;
+﻿using PersonnelDepartment.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PersonnelDepartment.Models;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PersonnelDepartment.Core.Services.DataProvider
 {
@@ -16,28 +15,6 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         {
             _db = db;
             db.Employees.Load();
-        }
-
-        public Task<bool> AddAsync(Employee employee)
-        {
-            return Task.Run(() =>
-            {
-                try
-                {
-                    if (employee != null)
-                    {
-                        _db.Employees.Add(employee);
-                        _db.SaveChanges();
-                        return true;
-                    }
-                    return false;
-                }
-                catch (Exception ex)
-                {
-                    Debug.Fail(ex.Message);
-                    return false;
-                }
-            });
         }
 
         public Task<List<Employee>> GetAsync()
@@ -86,6 +63,11 @@ namespace PersonnelDepartment.Core.Services.DataProvider
 
         public Task<bool> RemoveAsync(Employee employee)
         {
+            if (employee == null)
+            {
+                throw new ArgumentNullException(nameof(employee));
+            }
+
             return Task.Run(() =>
             {
                 try
@@ -107,14 +89,23 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             });
         }
 
-        public Task<bool> UpdateAsync(Employee employee)
+        public Task<bool> SaveOrUpdateAsync(Employee employee)
         {
+            if (employee == null)
+            {
+                throw new ArgumentNullException(nameof(employee));
+            }
+
             return Task.Run(() =>
             {
                 try
                 {
                     var updatedEmployee = _db.Employees.SingleOrDefault(e => e.Id == employee.Id);
-                    if (updatedEmployee != null)
+                    if (updatedEmployee == null)
+                    {
+                        _db.Employees.Add(employee);
+                    }
+                    else
                     {
                         var employeeType = updatedEmployee.GetType();
                         foreach (var item in employeeType.GetProperties().Skip(1))
@@ -122,8 +113,8 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                             item.SetValue(updatedEmployee, employeeType.GetProperty(item.Name).GetValue(employee));
                         }
                         _db.SaveChanges();
-                        return true;
                     }
+
                     return false;
                 }
                 catch (Exception ex)

@@ -1,96 +1,125 @@
 ﻿using PersonnelDepartment.Core.Services.DataProvider;
 using PersonnelDepartment.Models;
 using PersonnelDepartment.Mvvm;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 
 namespace PersonnelDepartment.ViewModels
 {
-    public class MainPageViewModel : BindableBase
+    /// <summary>
+    /// 
+    /// </summary>
+    public class MainPageViewModel : INotifyPropertyChanged
     {
-        EmployeeContext db;
-        IEmployeeService employeeService;
-        Employee _itemEmployee;
-        string _search;
+        #region Fields
+        private EmployeeContext _db;
+        private IEmployeeService _employeeService;
 
-        ICommand _addCommand;
-        ICommand _saveCommand;
-        ICommand _removeCommand;
+        private DelegateCommand _addCommand;
+        private DelegateCommand<Employee> _saveCommand;
+        private DelegateCommand<Employee> _removeCommand;
+        #endregion
+
 
         public MainPageViewModel()
         {
-            db = new EmployeeContext();
-            employeeService = new EmployeeService(db);
+            _db = new EmployeeContext();
+            _employeeService = new EmployeeService(_db);
             Employees = new ObservableCollection<Employee>();
 
             GetEmployee();
         }
 
+
+        #region INotifyPropertyChanged implementation
+#pragma warning disable 0067
+        public event PropertyChangedEventHandler PropertyChanged;
+#pragma warning restore 0067
+        #endregion
+
+
+        #region Properties
+        /// <summary>
+        /// 
+        /// </summary>
         public ObservableCollection<Employee> Employees { get; set; }
-        public Employee ItemEmployee { get => _itemEmployee; set => Set(ref _itemEmployee, value); }
-        public string Search
-        {
-            get => _search;
-            set
-            {
-                Set(ref _search, value);
-                TextChanged();
-            }
-        }
-        
-        public ICommand AddCommand => _addCommand ?? (_addCommand = new DelegateCommand(() => AddEmployee()));
-        public ICommand SaveCommand => _saveCommand ?? (_saveCommand = new DelegateCommand(() => SaveEmployee()));
-        public ICommand RemoveCommand => _removeCommand ?? (_removeCommand = new DelegateCommand(() => RemoveEmployee()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Employee SelectedEmployee { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string QueryString { get; set; }
+        #endregion
+
+
+        #region Commands
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand AddCommand => _addCommand ??
+            (_addCommand = new DelegateCommand(AddEmployee));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand<Employee> SaveCommand => _saveCommand ??
+            (_saveCommand = new DelegateCommand<Employee>(SaveEmployee));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand<Employee> RemoveCommand => _removeCommand ??
+            (_removeCommand = new DelegateCommand<Employee>(RemoveEmployee));
+        #endregion
+
 
         private async void GetEmployee()
         {
-            var employeeList = await employeeService.GetAsync();
+            var employeeList = await _employeeService.GetAsync();
 
             foreach (var employee in employeeList)
             {
                 Employees.Add(employee);
             }
-            ItemEmployee = Employees.First();
         }
+
         private void AddEmployee()
         {
-            Employees.Add(new Employee());
-            ItemEmployee = Employees.Last();
+            var empl = new Employee();
+            Employees.Add(empl);
+            SelectedEmployee = empl;
         }
-        private async void SaveEmployee()
+
+
+        private async void SaveEmployee(Employee empl) =>
+            await _employeeService.SaveOrUpdateAsync(empl);
+
+
+        private void RemoveEmployee(Employee employee)
         {
-            if (!await employeeService.UpdateAsync(ItemEmployee))
+
+        }
+
+
+        private void OnQueryStringChanged()
+        {
+            if (!string.IsNullOrWhiteSpace(QueryString))
             {
-                await employeeService.AddAsync(ItemEmployee);
-            }
-            
-        }
-        private void RemoveEmployee()
-        {
-            employeeService.RemoveAsync(ItemEmployee);
-            var employee = Employees.SingleOrDefault(e => e.Id == ItemEmployee.Id);
-            Employees.Remove(employee);
-            ItemEmployee = Employees.First();
-        }
-        private void TextChanged()
-        {
-            if (Search != "")
-            {
-                using(EmployeeContext _db = new EmployeeContext())
+                var str = "%" + QueryString + "%";
+
+                var employees = _db.Database.SqlQuery<Employee>(
+                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @{str} OR Name LIKE @{str} OR Patronymic LIKE @{str} OR RegistrationNumber LIKE @{str}");
+
+                Employees.Clear();
+
+                foreach (var employee in employees)
                 {
-                    System.Data.SqlClient.SqlParameter param = new System.Data.SqlClient.SqlParameter("@search", $"%{Search}%");
-                    var employees = _db.Database.SqlQuery<Employee>("SELECT * FROM Employees WHERE FirstSurname LIKE @search OR Name LIKE @search OR Patronymic LIKE @search OR RegistrationNumber LIKE @search", param);
-                    Employees.Clear();
-                    foreach (var employee in employees)
-                    {
-                        Employees.Add(employee);
-                    }
+                    Employees.Add(employee);
                 }
             }
             else
