@@ -27,18 +27,17 @@
                 <TextBlock Text="Работники" FontSize="25" VerticalAlignment="Center"/>
                 <Button Content="Добавить"
                         Height="20"
-                        Margin="5,15"
+                        Margin="100 0 0 0"
                         Command="{Binding AddCommand}"/>
             </StackPanel>
             <TextBox Width="280"
                      HorizontalAlignment="Center"
-                     Height="25"
+                     Height="28"
                      BorderThickness="2"
                      BorderBrush="Gray"
                      Background="LightGray"
-                     FontSize="15"
+                     FontSize="17"
                      Grid.Row="1"
-                     
                      Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}"
                      Margin="30 0 0 0"/>
             
@@ -48,7 +47,8 @@
                       Grid.Row="2"
                       BorderThickness="0"
                       Background="LightGray"
-                      Margin="50 0 0 0">
+                      Margin="50 20 0 0"
+                      FontSize="18">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal"
@@ -142,7 +142,9 @@
                                         Grid.Column="1" />
 
                                 <Button Content="Отмена"
-                                        Grid.Column="3" />
+                                        Grid.Column="3" 
+                                        Command="{Binding ElementName=View, Path=DataContext.CancelCommand}"
+                                        CommandParameter="{Binding}"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>

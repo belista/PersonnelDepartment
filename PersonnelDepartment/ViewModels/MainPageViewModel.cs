@@ -4,6 +4,7 @@ using PersonnelDepartment.Mvvm;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System;
 
 namespace PersonnelDepartment.ViewModels
 {
@@ -19,6 +20,7 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _addCommand;
         private DelegateCommand<Employee> _saveCommand;
         private DelegateCommand<Employee> _removeCommand;
+        private DelegateCommand _cancelCommand;
         #endregion
 
 
@@ -75,6 +77,11 @@ namespace PersonnelDepartment.ViewModels
         /// </summary>
         public DelegateCommand<Employee> RemoveCommand => _removeCommand ??
             (_removeCommand = new DelegateCommand<Employee>(RemoveEmployee));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(() => Cancel()));
         #endregion
 
 
@@ -132,6 +139,12 @@ namespace PersonnelDepartment.ViewModels
                 Employees.Clear();
                 GetEmployee();
             }
+        }
+        private void Cancel()
+        {
+            SelectedEmployee = null;
+            Employees.Clear();
+            GetEmployee();
         }
     }
 }
