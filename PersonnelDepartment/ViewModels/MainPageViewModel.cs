@@ -5,6 +5,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System;
+using System.Data;
+using System.Collections.Generic;
+using PersonnelDepartment.Core.Services.Excel;
 
 namespace PersonnelDepartment.ViewModels
 {
@@ -16,11 +19,13 @@ namespace PersonnelDepartment.ViewModels
         #region Fields
         private EmployeeContext _db;
         private IEmployeeService _employeeService;
+        private ExcelService _excelService;
 
         private DelegateCommand _addCommand;
         private DelegateCommand<Employee> _saveCommand;
         private DelegateCommand<Employee> _removeCommand;
         private DelegateCommand _cancelCommand;
+        private DelegateCommand _exportCommand;
         #endregion
 
 
@@ -28,6 +33,7 @@ namespace PersonnelDepartment.ViewModels
         {
             _db = new EmployeeContext();
             _employeeService = new EmployeeService(_db);
+            _excelService = new ExcelService();
             Employees = new ObservableCollection<Employee>();
 
             GetEmployee();
@@ -82,6 +88,11 @@ namespace PersonnelDepartment.ViewModels
         /// 
         /// </summary>
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(() => Cancel()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand ExportCommand => _exportCommand ?? (_exportCommand = new DelegateCommand(() => GetData()));
         #endregion
 
 
@@ -140,11 +151,28 @@ namespace PersonnelDepartment.ViewModels
                 GetEmployee();
             }
         }
+
         private void Cancel()
         {
             SelectedEmployee = null;
             Employees.Clear();
             GetEmployee();
+        }
+
+        private void GetData()
+        {
+            DataTable dt = new DataTable();
+            List<Employee> employeeList = (from employee in _db.Employees select employee).ToList();
+            if (employeeList.Any())
+            {
+                dt = _excelService.ToDataTable(employeeList);
+                ExportExcel(dt);
+            }
+        }
+
+        private void ExportExcel(DataTable dt)
+        {
+            _excelService.SaveExcel(dt);
         }
     }
 }

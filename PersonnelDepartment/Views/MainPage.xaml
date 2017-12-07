@@ -15,55 +15,67 @@
         </Grid.ColumnDefinitions>
 
         <Grid Background="LightGray">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Left"
-                        Margin="55 0 0 0"
-                        Width="305">
-                <TextBlock Text="Работники" FontSize="25" VerticalAlignment="Center"/>
-                <Button Content="Добавить"
-                        Height="20"
-                        Margin="100 0 0 0"
-                        Command="{Binding AddCommand}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Background="Gray">
+                <Button Content="Экс"
+                        Height="50"
+                        Command="{Binding ExportCommand}"/>
+                <Button Content="Имп"
+                        Height="50"/>
             </StackPanel>
-            <TextBox Width="280"
-                     HorizontalAlignment="Center"
+            <Grid Grid.Column="1"
+                  Margin="10 0 0 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Left"
+                        Width="305">
+                    <TextBlock Text="Работники" FontSize="25" VerticalAlignment="Center"/>
+                    <Button Content="Добавить"
+                        Height="20"
+                        Command="{Binding AddCommand}"/>
+                </StackPanel>
+                <TextBox Width="280"
+                     HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
                      Height="28"
                      BorderThickness="2"
                      BorderBrush="Gray"
                      Background="LightGray"
                      FontSize="17"
                      Grid.Row="1"
-                     Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}"
-                     Margin="30 0 0 0"/>
-            
-            <ListView x:Name="EmployeeList"
+                     Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}"/>
+
+                <ListView x:Name="EmployeeList"
                       ItemsSource="{Binding Employees}"
                       SelectedItem="{Binding SelectedEmployee}"
                       Grid.Row="2"
                       BorderThickness="0"
                       Background="LightGray"
-                      Margin="50 20 0 0"
-                      FontSize="18">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal"
+                      FontSize="18"
+                      HorizontalContentAlignment="Left">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
                                     Grid.Row="1">
-                            <TextBlock Text="{Binding FullName}"
+                                <TextBlock Text="{Binding FullName}"
                                        Margin="2" />
-                            <TextBlock Text="{Binding RegistrationNumber}"
+                                <TextBlock Text="{Binding RegistrationNumber}"
                                        Margin="2" />
-                            <Button Content="Delete"
+                                <Button Content="Delete"
                                     Command="{Binding ElementName=View, Path=DataContext.RemoveCommand}"
                                     CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
         </Grid>
 
 
