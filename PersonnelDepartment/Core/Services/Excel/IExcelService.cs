@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PersonnelDepartment.Core.Services.Excel
 {
+    /// <summary>
+    /// Интерфейс для ExcelService.
+    /// </summary>
     public interface IExcelService
     {
         string FilePath { get; set; }

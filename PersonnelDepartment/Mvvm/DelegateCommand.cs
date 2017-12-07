@@ -4,6 +4,9 @@ using System.Windows.Input;
 
 namespace PersonnelDepartment.Mvvm
 {
+    /// <summary>
+    /// Класс для работы с командами.
+    /// </summary>
     public class DelegateCommand : ICommand
     {
         #region Fields

@@ -49,17 +49,17 @@ namespace PersonnelDepartment.ViewModels
 
         #region Properties
         /// <summary>
-        /// 
+        /// Коллекция работников.
         /// </summary>
         public ObservableCollection<Employee> Employees { get; set; }
 
         /// <summary>
-        /// 
+        /// Выбранный работник.
         /// </summary>
         public Employee SelectedEmployee { get; set; }
 
         /// <summary>
-        /// 
+        /// Строка поиска.
         /// </summary>
         public string QueryString { get; set; }
         #endregion
@@ -67,30 +67,30 @@ namespace PersonnelDepartment.ViewModels
 
         #region Commands
         /// <summary>
-        /// 
+        /// Команда добавления работника.
         /// </summary>
         public DelegateCommand AddCommand => _addCommand ??
             (_addCommand = new DelegateCommand(AddEmployee));
 
         /// <summary>
-        /// 
+        /// Команда сохранения в БД.
         /// </summary>
         public DelegateCommand<Employee> SaveCommand => _saveCommand ??
             (_saveCommand = new DelegateCommand<Employee>(SaveEmployee));
 
         /// <summary>
-        /// 
+        /// Команда удаления работника.
         /// </summary>
         public DelegateCommand<Employee> RemoveCommand => _removeCommand ??
             (_removeCommand = new DelegateCommand<Employee>(RemoveEmployee));
 
         /// <summary>
-        /// 
+        /// Команда отмены.
         /// </summary>
         public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(() => Cancel()));
 
         /// <summary>
-        /// 
+        /// Команда экспорта.
         /// </summary>
         public DelegateCommand ExportCommand => _exportCommand ?? (_exportCommand = new DelegateCommand(() => GetData()));
         #endregion

@@ -7,15 +7,28 @@ using System.Reflection;
 
 namespace PersonnelDepartment.Core.Services.Excel
 {
+    /// <summary>
+    /// Сервис для работы с Excel.
+    /// </summary>
     public class ExcelService : IExcelService
     {
+        /// <summary>
+        /// Путь к файлу.
+        /// </summary>
         public string FilePath { get; set; }
 
+        /// <summary>
+        /// Импорт.
+        /// </summary>
         public void OpenExcel()
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Экспорт.
+        /// </summary>
+        /// <param name="dt"></param>
         public void SaveExcel(DataTable dt)
         {
             SaveFileDialog dlg = new SaveFileDialog();
@@ -39,6 +52,12 @@ namespace PersonnelDepartment.Core.Services.Excel
             }
         }
 
+        /// <summary>
+        /// Загружает данные в DataTable.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items">Работники.</param>
+        /// <returns></returns>
         public DataTable ToDataTable<T>(List<T> items)
         {
             DataTable dataTable = new DataTable(typeof(T).Name);

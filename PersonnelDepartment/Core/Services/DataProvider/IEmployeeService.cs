@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace PersonnelDepartment.Core.Services.DataProvider
 {
+    /// <summary>
+    /// Интерфейс для EmployeeService.
+    /// </summary>
     public interface IEmployeeService
     {
         Task<List<Employee>> GetAsync();
