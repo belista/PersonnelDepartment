@@ -20,9 +20,28 @@ namespace PersonnelDepartment.Core.Services.Excel
         /// <summary>
         /// Импорт.
         /// </summary>
-        public void OpenExcel()
+        public DataTable OpenExcel()
         {
-            throw new NotImplementedException();
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".xls";
+            dlg.Filter = "Книга Excel|*.xls";
+
+            bool? result = dlg.ShowDialog();
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+
+                Workbook workbook = new Workbook();
+
+                workbook.LoadFromFile(filename);
+
+                Worksheet sheet = workbook.Worksheets[0];
+
+                return sheet.ExportDataTable();
+            }
+
+            return null;
         }
 
         /// <summary>

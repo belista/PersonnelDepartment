@@ -1,4 +1,6 @@
-﻿using PersonnelDepartment.ViewModels;
+﻿using PersonnelDepartment.Core.Services.DataProvider;
+using PersonnelDepartment.Models;
+using PersonnelDepartment.ViewModels;
 using System.Windows.Controls;
 
 namespace PersonnelDepartment.Views

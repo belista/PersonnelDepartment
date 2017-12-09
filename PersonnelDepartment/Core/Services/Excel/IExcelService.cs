@@ -13,7 +13,7 @@ namespace PersonnelDepartment.Core.Services.Excel
     public interface IExcelService
     {
         string FilePath { get; set; }
-        void OpenExcel();
+        DataTable OpenExcel();
         void SaveExcel(DataTable dt);
         DataTable ToDataTable<T>(List<T> items);
     }

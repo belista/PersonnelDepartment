@@ -26,6 +26,7 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand<Employee> _removeCommand;
         private DelegateCommand _cancelCommand;
         private DelegateCommand _exportCommand;
+        private DelegateCommand _importCommand;
         #endregion
 
 
@@ -93,6 +94,11 @@ namespace PersonnelDepartment.ViewModels
         /// Команда экспорта.
         /// </summary>
         public DelegateCommand ExportCommand => _exportCommand ?? (_exportCommand = new DelegateCommand(() => GetData()));
+
+        /// <summary>
+        /// Команда импорта.
+        /// </summary>
+        public DelegateCommand ImportCommand => _importCommand ?? (_importCommand = new DelegateCommand(() => ImportExcel()));
         #endregion
 
 
@@ -154,9 +160,9 @@ namespace PersonnelDepartment.ViewModels
 
         private void Cancel()
         {
-            SelectedEmployee = null;
             Employees.Clear();
             GetEmployee();
+            SelectedEmployee = null;
         }
 
         private void GetData()
@@ -173,6 +179,54 @@ namespace PersonnelDepartment.ViewModels
         private void ExportExcel(DataTable dt)
         {
             _excelService.SaveExcel(dt);
+        }
+
+        private void ImportExcel()
+        {
+            var dt = _excelService.OpenExcel();
+
+            if (dt != null)
+            {
+                Employees.Clear();
+                _db.Database.ExecuteSqlCommand("TRUNCATE TABLE Employees");
+            }
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                DataRow dr = dt.Rows[i];
+
+                var employee = new Employee
+                {
+                    FirstSurname = dr["FirstSurname"].ToString(),
+                    SecondSurname = dr["SecondSurname"].ToString(),
+                    ThirdSurname = dr["ThirdSurname"].ToString(),
+                    Name = dr["Name"].ToString(),
+                    Patronymic = dr["Patronymic"].ToString(),
+                    PassportInfo = dr["PassportInfo"].ToString(),
+                    Registration = dr["Registration"].ToString(),
+                    RegistrationNumber = dr["RegistrationNumber"].ToString(),
+                    Phone = Convert.ToInt32(dr["Phone"]),
+                    FirstPosition = dr["FirstPosition"].ToString(),
+                    SecondPosition = dr["SecondPosition"].ToString(),
+                    ThirdPosition = dr["ThirdPosition"].ToString(),
+                    FirstOrder = dr["FirstOrder"].ToString(),
+                    Dismissed = Convert.ToBoolean(dr["Dismissed"]),
+                    SecondOrder = dr["SecondOrder"].ToString(),
+                    Additionally = dr["Additionally"].ToString(),
+                    EmploymentDate = Convert.ToDateTime(dr["EmploymentDate"]),
+                    DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"])
+                };
+
+                if (DateTime.TryParse(dr["DateOfDismissal"].ToString(), out DateTime dod))
+                {
+                    employee.DateOfDismissal = dod;
+                }
+
+                Employees.Add(employee);
+
+                _db.Employees.Add(employee);
+            }
+            _db.SaveChanges();
         }
     }
 }
