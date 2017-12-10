@@ -6,6 +6,7 @@
       mc:Ignorable="d"
       xmlns:models="clr-namespace:PersonnelDepartment.Models"
       ShowsNavigationUI="False"
+      xmlns:controls="clr-namespace:PersonnelDepartment.Controls"
       x:Name="View">
 
     <Grid>
@@ -24,7 +25,7 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <Rectangle Fill="#c6c6c6"/>
+            <Rectangle Fill="#c6c6c6" />
             <Button Content="Экс"
                     Height="50"
                     Command="{Binding ExportCommand}"
@@ -76,7 +77,7 @@
                                         Grid.Row="1">
                                 <TextBlock Text="{Binding FullName}"
                                            Margin="2"
-                                           TextWrapping="Wrap"/>
+                                           TextWrapping="Wrap" />
                                 <TextBlock Text="{Binding RegistrationNumber}"
                                            Margin="2"
                                            TextWrapping="Wrap" />
@@ -132,7 +133,37 @@
                     <ScrollViewer Background="White">
                         <StackPanel d:DataContext="{d:DesignInstance Type=models:Employee}">
 
-                            <TextBox Text="{Binding FirstSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <controls:LabelTextBox Key="Фамилия"
+                                                   Value="{Binding FirstSurname}" />
+                            <controls:LabelTextBox Key="Вторая фамилия"
+                                                   Value="{Binding SecondSurname}" />
+                            <controls:LabelTextBox Key="Третья фамилия"
+                                                   Value="{Binding ThirdSurname}" />
+                            <controls:LabelTextBox Key="Имя"
+                                                   Value="{Binding Name}" />
+                            <controls:LabelTextBox Key="Отчество"
+                                                   Value="{Binding Patronymic}" />
+                            <controls:LabelTextBox Key="Паспортные данные"
+                                                   Value="{Binding PassportInfo}" />
+                            <controls:LabelTextBox Key="Проживание"
+                                                   Value="{Binding Registration}" />
+                            <controls:LabelTextBox Key="ИНН"
+                                                   Value="{Binding RegistrationNumber}" />
+                            <controls:LabelTextBox Key="Телефон"
+                                                   Value="{Binding Phone}" />
+                            <controls:LabelTextBox Key="Должность"
+                                                   Value="{Binding FirstPosition}" />
+                            <controls:LabelTextBox Key="Вторая должность"
+                                                   Value="{Binding SecondPosition}" />
+                            <controls:LabelTextBox Key="Третья должность"
+                                                   Value="{Binding ThirdPosition}" />
+                            <controls:LabelTextBox Key="Первый приказ"
+                                                   Value="{Binding FirstOrder}" />
+                            <controls:LabelTextBox Key="Второй приказ"
+                                                   Value="{Binding SecondOrder}" />
+                            <controls:LabelTextBox Key="Дополнительно"
+                                                   Value="{Binding Additionally}" />
+                            <!--<TextBox Text="{Binding FirstSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBox Text="{Binding SecondSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBox Text="{Binding ThirdSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -152,26 +183,32 @@
                             <TextBox Text="{Binding SecondOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock Text="{Binding WorkDays}"
                                        Margin="8" />
-                            <TextBox Text="{Binding Additionally, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox Text="{Binding Additionally, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="25" />
+                                    <ColumnDefinition Width="190" />
                                     <ColumnDefinition Width="20" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="20" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="20" />
+                                    <ColumnDefinition Width="190" />
                                 </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
 
                                 <Button Content="Сохранить"
                                         Command="{Binding ElementName=View, Path=DataContext.SaveCommand}"
                                         CommandParameter="{Binding}"
-                                        Grid.Column="1" />
+                                        Grid.Column="1"
+                                        Height="30" 
+                                        Grid.Row="0"/>
 
                                 <Button Content="Отмена"
                                         Grid.Column="3"
                                         Command="{Binding ElementName=View, Path=DataContext.CancelCommand}"
-                                        CommandParameter="{Binding}" />
+                                        CommandParameter="{Binding}" 
+                                        Grid.Row="0"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
