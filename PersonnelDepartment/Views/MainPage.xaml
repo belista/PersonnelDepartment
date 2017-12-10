@@ -79,13 +79,16 @@
                                            TextWrapping="Wrap"/>
                                 <TextBlock Text="{Binding RegistrationNumber}"
                                            Margin="2"
-                                           TextWrapping="Wrap"/>
-                                <Button Content="Delete"
-                                        Command="{Binding ElementName=View, Path=DataContext.RemoveCommand}"
-                                        CommandParameter="{Binding}" />
+                                           TextWrapping="Wrap" />
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Удалить"
+                                      Command="{Binding RemoveCommand}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                 </ListView>
             </Grid>
         </Grid>

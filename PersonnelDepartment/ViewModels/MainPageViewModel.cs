@@ -23,7 +23,7 @@ namespace PersonnelDepartment.ViewModels
 
         private DelegateCommand _addCommand;
         private DelegateCommand<Employee> _saveCommand;
-        private DelegateCommand<Employee> _removeCommand;
+        private DelegateCommand _removeCommand;
         private DelegateCommand _cancelCommand;
         private DelegateCommand _exportCommand;
         private DelegateCommand _importCommand;
@@ -82,23 +82,26 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// Команда удаления работника.
         /// </summary>
-        public DelegateCommand<Employee> RemoveCommand => _removeCommand ??
-            (_removeCommand = new DelegateCommand<Employee>(RemoveEmployee));
+        public DelegateCommand RemoveCommand => _removeCommand ??
+            (_removeCommand = new DelegateCommand(() => RemoveEmployee()));
 
         /// <summary>
         /// Команда отмены.
         /// </summary>
-        public DelegateCommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(() => Cancel()));
+        public DelegateCommand CancelCommand => _cancelCommand ?? 
+            (_cancelCommand = new DelegateCommand(() => Cancel()));
 
         /// <summary>
         /// Команда экспорта.
         /// </summary>
-        public DelegateCommand ExportCommand => _exportCommand ?? (_exportCommand = new DelegateCommand(() => GetData()));
+        public DelegateCommand ExportCommand => _exportCommand ?? 
+            (_exportCommand = new DelegateCommand(() => GetData()));
 
         /// <summary>
         /// Команда импорта.
         /// </summary>
-        public DelegateCommand ImportCommand => _importCommand ?? (_importCommand = new DelegateCommand(() => ImportExcel()));
+        public DelegateCommand ImportCommand => _importCommand ?? 
+            (_importCommand = new DelegateCommand(() => ImportExcel()));
         #endregion
 
 
@@ -124,11 +127,11 @@ namespace PersonnelDepartment.ViewModels
             await _employeeService.SaveOrUpdateAsync(empl);
 
 
-        private async void RemoveEmployee(Employee employee)
+        private async void RemoveEmployee()
         {
-            if (await _employeeService.RemoveAsync(employee))
+            if (await _employeeService.RemoveAsync(SelectedEmployee))
             {
-                Employees.Remove(employee);
+                Employees.Remove(SelectedEmployee);
             }
         }
 
