@@ -131,7 +131,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                     else
                     {
                         var employeeType = updatedEmployee.GetType();
-                        foreach (var item in employeeType.GetProperties().Skip(1))
+                        foreach (var item in employeeType.GetProperties().Skip(1).Where(i => i.Name != "FullName" && i.Name != "WorkDays"))
                         {
                             item.SetValue(updatedEmployee, employeeType.GetProperty(item.Name).GetValue(employee));
                         }
