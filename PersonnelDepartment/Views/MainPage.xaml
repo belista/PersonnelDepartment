@@ -14,50 +14,83 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid>
+        <Grid Background="#ddd">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="30" />
                 <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="50" />
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Stretch"
-                        Background="Gray">
-                <Button Content="Добавить"
-                        Height="20"
-                        Margin="5"
-                        Command="{Binding AddCommand}" />
+            <Rectangle Fill="#c6c6c6"/>
+            <Button Content="Экс"
+                    Height="50"
+                    Command="{Binding ExportCommand}"
+                    Grid.Row="1" />
+            <Button Content="Имп"
+                    Height="50"
+                    Command="{Binding ImportCommand}"
+                    Grid.Row="2" />
+            <Grid Grid.Column="1"
+                  Margin="10 0 0 0"
+                  Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Width="305">
+                    <TextBlock Text="Работники"
+                               FontSize="25"
+                               VerticalAlignment="Center" />
+                    <Button Content="Добавить"
+                            Height="20"
+                            Command="{Binding AddCommand}" />
+                </StackPanel>
+                <TextBox Width="280"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Center"
+                         Height="28"
+                         BorderThickness="2"
+                         BorderBrush="Gray"
+                         Background="LightGray"
+                         FontSize="17"
+                         Grid.Row="1"
+                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}" />
 
-                <Button Content="Удалить"
-                        Height="20"
-                        Margin="5"
-                        Command="{Binding RemoveCommand}" />
-            </StackPanel>
-            <TextBox Width="250"
-                     HorizontalAlignment="Center"
-                     Height="20"
-                     Grid.Row="1"
-                     Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}" />
-
-            <ListView x:Name="EmployeeList"
-                      ItemsSource="{Binding Employees}"
-                      SelectedItem="{Binding SelectedEmployee}"
-                      Grid.Row="2">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal"
-                                    Grid.Row="1">
-                            <TextBlock Text="{Binding FullName}"
-                                       Margin="2" />
-                            <TextBlock Text="{Binding RegistrationNumber}"
-                                       Margin="2" />
-                            <Button Content="Delete"
-                                    Command="{Binding ElementName=View, Path=DataContext.RemoveCommand}"
-                                    CommandParameter="{Binding}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                <ListView x:Name="EmployeeList"
+                          ItemsSource="{Binding Employees}"
+                          SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                          Grid.Row="2"
+                          BorderThickness="0"
+                          Background="Transparent"
+                          FontSize="18"
+                          HorizontalContentAlignment="Left">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal"
+                                        Grid.Row="1">
+                                <TextBlock Text="{Binding FullName}"
+                                           Margin="2"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding RegistrationNumber}"
+                                           Margin="2"
+                                           TextWrapping="Wrap" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Удалить"
+                                      Command="{Binding RemoveCommand}" />
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                </ListView>
+            </Grid>
         </Grid>
 
 
@@ -76,7 +109,7 @@
             </StackPanel>
         </Grid>
         <ContentPresenter x:Name="ContentPresenter"
-                          Content="{Binding ElementName=EmployeeList, Path=SelectedItem}" 
+                          Content="{Binding ElementName=EmployeeList, Path=SelectedItem}"
                           Grid.Column="1">
             <ContentPresenter.Style>
                 <Style TargetType="ContentPresenter">
@@ -136,7 +169,9 @@
                                         Grid.Column="1" />
 
                                 <Button Content="Отмена"
-                                        Grid.Column="3" />
+                                        Grid.Column="3"
+                                        Command="{Binding ElementName=View, Path=DataContext.CancelCommand}"
+                                        CommandParameter="{Binding}" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>

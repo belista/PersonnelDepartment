@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace PersonnelDepartment.Core.Services.DataProvider
 {
+    /// <summary>
+    /// Сервис для работы с БД.
+    /// </summary>
     public class EmployeeService : IEmployeeService
     {
         private EmployeeContext _db;
@@ -17,6 +20,10 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             db.Employees.Load();
         }
 
+        /// <summary>
+        /// Возвращает всех работников.
+        /// </summary>
+        /// <returns></returns>
         public Task<List<Employee>> GetAsync()
         {
             return Task.Run(() =>
@@ -39,6 +46,11 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             });
         }
 
+        /// <summary>
+        /// Возвращает работника по id.
+        /// </summary>
+        /// <param name="id">Идентификатор работника.</param>
+        /// <returns></returns>
         public Task<Employee> GetById(int id)
         {
             return Task.Run(() =>
@@ -61,6 +73,11 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             });
         }
 
+        /// <summary>
+        /// Удаляет работника.
+        /// </summary>
+        /// <param name="employee">Работник.</param>
+        /// <returns></returns>
         public Task<bool> RemoveAsync(Employee employee)
         {
             if (employee == null)
@@ -89,6 +106,11 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             });
         }
 
+        /// <summary>
+        /// Сохраняет либо редактирует работника.
+        /// </summary>
+        /// <param name="employee">Работник.</param>
+        /// <returns></returns>
         public Task<bool> SaveOrUpdateAsync(Employee employee)
         {
             if (employee == null)
@@ -104,11 +126,12 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                     if (updatedEmployee == null)
                     {
                         _db.Employees.Add(employee);
+                        _db.SaveChanges();
                     }
                     else
                     {
                         var employeeType = updatedEmployee.GetType();
-                        foreach (var item in employeeType.GetProperties().Skip(1))
+                        foreach (var item in employeeType.GetProperties().Skip(1).Where(i => i.Name != "FullName" && i.Name != "WorkDays"))
                         {
                             item.SetValue(updatedEmployee, employeeType.GetProperty(item.Name).GetValue(employee));
                         }
