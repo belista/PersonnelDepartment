@@ -88,19 +88,19 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// Команда отмены.
         /// </summary>
-        public DelegateCommand CancelCommand => _cancelCommand ?? 
+        public DelegateCommand CancelCommand => _cancelCommand ??
             (_cancelCommand = new DelegateCommand(() => Cancel()));
 
         /// <summary>
         /// Команда экспорта.
         /// </summary>
-        public DelegateCommand ExportCommand => _exportCommand ?? 
+        public DelegateCommand ExportCommand => _exportCommand ??
             (_exportCommand = new DelegateCommand(() => GetData()));
 
         /// <summary>
         /// Команда импорта.
         /// </summary>
-        public DelegateCommand ImportCommand => _importCommand ?? 
+        public DelegateCommand ImportCommand => _importCommand ??
             (_importCommand = new DelegateCommand(() => ImportExcel()));
         #endregion
 
@@ -145,7 +145,7 @@ namespace PersonnelDepartment.ViewModels
                 var param = new System.Data.SqlClient.SqlParameter("@queryString", $"%{QueryString}%");
 
                 var employees = _db.Database.SqlQuery<Employee>(
-                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @queryString OR Name LIKE @queryString OR Patronymic LIKE @queryString OR RegistrationNumber LIKE @queryString",param);
+                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @queryString OR Name LIKE @queryString OR Patronymic LIKE @queryString OR RegistrationNumber LIKE @queryString", param);
 
                 Employees.Clear();
 
