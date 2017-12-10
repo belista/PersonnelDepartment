@@ -8,7 +8,7 @@
              x:Name="RootElement">
     <Grid Width="410"
           HorizontalAlignment="Left"
-          Margin="20 5 20 5">
+          Margin="20 0 20 0">
         <Label Content="{Binding ElementName=RootElement, Path=Key}"
                Height="28"
                HorizontalAlignment="Left"
@@ -16,17 +16,19 @@
                VerticalAlignment="Top"
                FontSize="14"/>
         <TextBox Height="24"
-                 Margin="5 30 0 20"
+                 Margin="5 30 0 10"
                  Width="400"
                  Name="BaseTextBox"
                  VerticalAlignment="Top"
                  HorizontalAlignment="Left"
                  BorderThickness="1"
                  FontSize="12"
+                 VerticalContentAlignment="Center"
                  Text="{Binding ElementName=RootElement, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
         <Border x:Name="Border"
                 BorderThickness="0 0 0 1"
-                BorderBrush="Gray">
+                BorderBrush="Gray"
+                Visibility="{Binding ElementName=RootElement, Path=VisibilityBorder}">
             <ContentPresenter Margin="2"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"

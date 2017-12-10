@@ -136,11 +136,12 @@
                             <controls:LabelTextBox Key="Вторая фамилия"
                                                    Value="{Binding SecondSurname}" />
                             <controls:LabelTextBox Key="Третья фамилия"
-                                                   Value="{Binding ThirdSurname}" />
+                                                   Value="{Binding ThirdSurname}"/>
                             <controls:LabelTextBox Key="Имя"
                                                    Value="{Binding Name}" />
                             <controls:LabelTextBox Key="Отчество"
-                                                   Value="{Binding Patronymic}" />
+                                                   Value="{Binding Patronymic}" 
+                                                   VisibilityBorder="Visible"/>
                             <controls:LabelTextBox Key="Паспортные данные"
                                                    Value="{Binding PassportInfo}" />
                             <controls:LabelTextBox Key="Проживание"
@@ -148,7 +149,8 @@
                             <controls:LabelTextBox Key="ИНН"
                                                    Value="{Binding RegistrationNumber}" />
                             <controls:LabelTextBox Key="Телефон"
-                                                   Value="{Binding Phone}" />
+                                                   Value="{Binding Phone}" 
+                                                   VisibilityBorder="Visible"/>
                             <controls:LabelTextBox Key="Должность"
                                                    Value="{Binding FirstPosition}" />
                             <controls:LabelTextBox Key="Вторая должность"
@@ -159,8 +161,8 @@
                                                    Value="{Binding FirstOrder}" />
                             <controls:LabelTextBox Key="Второй приказ"
                                                    Value="{Binding SecondOrder}" />
-                            <controls:LabelTextBox Key="Дополнительно"
-                                                   Value="{Binding Additionally}" />
+                            <controls:LabelTextBox Key="Дополнительно" 
+                                                   Value="{Binding Additionally}" /> 
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
