@@ -22,9 +22,11 @@ namespace PersonnelDepartment.Core.Services.Excel
         /// </summary>
         public DataTable OpenExcel()
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".xls";
-            dlg.Filter = "Книга Excel|*.xls";
+            OpenFileDialog dlg = new OpenFileDialog
+            {
+                DefaultExt = ".xls",
+                Filter = "Книга Excel|*.xls"
+            };
 
             bool? result = dlg.ShowDialog();
 
@@ -50,10 +52,12 @@ namespace PersonnelDepartment.Core.Services.Excel
         /// <param name="dt"></param>
         public void SaveExcel(DataTable dt)
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "Document"; // Имя по-умолчанию
-            dlg.DefaultExt = ".xls"; // Расширение по-умолчанию
-            dlg.Filter = "Книга Excel|*.xls"; // Фильтр по расширениям
+            SaveFileDialog dlg = new SaveFileDialog
+            {
+                FileName = "Document", // Имя по-умолчанию
+                DefaultExt = ".xls", // Расширение по-умолчанию
+                Filter = "Книга Excel|*.xls" // Фильтр по расширениям
+            };
 
             // Показываем диалог пользователю
             bool? result = dlg.ShowDialog();

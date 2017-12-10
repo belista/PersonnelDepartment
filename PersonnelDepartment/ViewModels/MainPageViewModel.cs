@@ -14,7 +14,7 @@ namespace PersonnelDepartment.ViewModels
     /// <summary>
     /// Вью модель для MainPage.xaml
     /// </summary>
-    public class MainPageViewModel : INotifyPropertyChanged
+    public class MainPageViewModel : INotifyPropertyChanged, IDisposable
     {
         #region Fields
         private EmployeeContext _db;
@@ -88,19 +88,19 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// Команда отмены.
         /// </summary>
-        public DelegateCommand CancelCommand => _cancelCommand ?? 
+        public DelegateCommand CancelCommand => _cancelCommand ??
             (_cancelCommand = new DelegateCommand(() => Cancel()));
 
         /// <summary>
         /// Команда экспорта.
         /// </summary>
-        public DelegateCommand ExportCommand => _exportCommand ?? 
+        public DelegateCommand ExportCommand => _exportCommand ??
             (_exportCommand = new DelegateCommand(() => GetData()));
 
         /// <summary>
         /// Команда импорта.
         /// </summary>
-        public DelegateCommand ImportCommand => _importCommand ?? 
+        public DelegateCommand ImportCommand => _importCommand ??
             (_importCommand = new DelegateCommand(() => ImportExcel()));
         #endregion
 
@@ -145,7 +145,7 @@ namespace PersonnelDepartment.ViewModels
                 var param = new System.Data.SqlClient.SqlParameter("@queryString", $"%{QueryString}%");
 
                 var employees = _db.Database.SqlQuery<Employee>(
-                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @queryString OR Name LIKE @queryString OR Patronymic LIKE @queryString OR RegistrationNumber LIKE @queryString",param);
+                    $"SELECT * FROM Employees WHERE FirstSurname LIKE @queryString OR Name LIKE @queryString OR Patronymic LIKE @queryString OR RegistrationNumber LIKE @queryString", param);
 
                 Employees.Clear();
 
@@ -170,12 +170,12 @@ namespace PersonnelDepartment.ViewModels
 
         private void GetData()
         {
-            DataTable dt = new DataTable();
-            List<Employee> employeeList = (from employee in _db.Employees select employee).ToList();
-            if (employeeList.Any())
+            var dataTable = new DataTable();
+            var empl = _db.Employees.ToList();
+            if (empl.Any())
             {
-                dt = _excelService.ToDataTable(employeeList);
-                ExportExcel(dt);
+                dataTable = _excelService.ToDataTable(empl);
+                ExportExcel(dataTable);
             }
         }
 
@@ -230,6 +230,11 @@ namespace PersonnelDepartment.ViewModels
                 _db.Employees.Add(employee);
             }
             _db.SaveChanges();
+        }
+
+        public void Dispose()
+        {
+            ((IDisposable)_db).Dispose();
         }
     }
 }

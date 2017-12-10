@@ -11,89 +11,87 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <Grid Background="#ddd">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="48" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="50" />
+                <RowDefinition Height="48" />
+                <RowDefinition Height="48" />
             </Grid.RowDefinitions>
-            <Rectangle Fill="#c6c6c6" />
+
+            <Rectangle Fill="#c6c6c6"
+                       Grid.RowSpan="4" />
             <Button Content="Экс"
-                    Height="50"
+                    Height="48"
                     Command="{Binding ExportCommand}"
-                    Grid.Row="1" />
-            <Button Content="Имп"
-                    Height="50"
-                    Command="{Binding ImportCommand}"
                     Grid.Row="2" />
+            <Button Content="Имп"
+                    Height="48"
+                    Command="{Binding ImportCommand}"
+                    Grid.Row="3" />
+
             <Grid Grid.Column="1"
-                  Margin="10 0 0 0"
-                  Grid.RowSpan="3">
+                  Margin="12,12,12,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition Height="60" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Width="305">
-                    <TextBlock Text="Работники"
-                               FontSize="25"
-                               VerticalAlignment="Center" />
-                    <Button Content="Добавить"
-                            Height="20"
-                            Command="{Binding AddCommand}" />
-                </StackPanel>
-                <TextBox Width="280"
-                         HorizontalAlignment="Left"
-                         VerticalAlignment="Center"
-                         Height="28"
-                         BorderThickness="2"
-                         BorderBrush="Gray"
-                         Background="LightGray"
-                         FontSize="17"
-                         Grid.Row="1"
-                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged}" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                <ListView x:Name="EmployeeList"
-                          ItemsSource="{Binding Employees}"
-                          SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
-                          Grid.Row="2"
-                          BorderThickness="0"
-                          Background="Transparent"
-                          FontSize="18"
-                          HorizontalContentAlignment="Left">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal"
-                                        Grid.Row="1">
-                                <TextBlock Text="{Binding FullName}"
-                                           Margin="2"
-                                           TextWrapping="Wrap" />
-                                <TextBlock Text="{Binding RegistrationNumber}"
-                                           Margin="2"
-                                           TextWrapping="Wrap" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Удалить"
-                                      Command="{Binding RemoveCommand}" />
-                        </ContextMenu>
-                    </ListView.ContextMenu>
-                </ListView>
+                <TextBlock Text="Работники"
+                           FontSize="20"
+                           VerticalAlignment="Center" />
+
+                <Button Content="Добавить"
+                        Command="{Binding AddCommand}"
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Height="32" />
+
+                <TextBox Grid.Row="1"
+                         Grid.ColumnSpan="2"
+                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
-        </Grid>
 
+            <ListView x:Name="EmployeeList"
+                      ItemsSource="{Binding Employees}"
+                      SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
+                      BorderThickness="0"
+                      Background="Transparent"
+                      Grid.Row="1"
+                      Grid.Column="1"
+                      Margin="12">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Grid.Row="1">
+                            <TextBlock Text="{Binding FullName}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding RegistrationNumber}"
+                                       FontSize="12"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Удалить"
+                                  Command="{Binding RemoveCommand}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+        </Grid>
 
         <Grid x:Name="PreloaderHost"
               Grid.Column="1">
@@ -163,29 +161,8 @@
                                                    Value="{Binding FirstOrder}" />
                             <controls:LabelTextBox Key="Второй приказ"
                                                    Value="{Binding SecondOrder}" />
-                            <controls:LabelTextBox Key="Дополнительно"
-                                                   Value="{Binding Additionally}"/>
-                            <!--<TextBox Text="{Binding FirstSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding SecondSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding ThirdSurname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding Patronymic, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DatePicker SelectedDate="{Binding DateOfBirth, Mode=TwoWay}" />
-                            <TextBox Text="{Binding PassportInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding Registration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding RegistrationNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding FirstPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding SecondPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBox Text="{Binding ThirdPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DatePicker SelectedDate="{Binding EmploymentDate, Mode=TwoWay}" />
-                            <TextBox Text="{Binding FirstOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <CheckBox IsChecked="{Binding Dismissed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <DatePicker SelectedDate="{Binding DateOfDismissal, Mode=TwoWay}" />
-                            <TextBox Text="{Binding SecondOrder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                            <TextBlock Text="{Binding WorkDays}"
-                                       Margin="8" />
-                            <TextBox Text="{Binding Additionally, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />-->
+                            <controls:LabelTextBox Key="Дополнительно" 
+                                                   Value="{Binding Additionally}" /> 
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -195,22 +172,22 @@
                                     <ColumnDefinition Width="190" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="20" />
                                 </Grid.RowDefinitions>
 
                                 <Button Content="Сохранить"
                                         Command="{Binding ElementName=View, Path=DataContext.SaveCommand}"
                                         CommandParameter="{Binding}"
                                         Grid.Column="1"
-                                        Height="30" 
-                                        Grid.Row="0"/>
+                                        Height="30"
+                                        Grid.Row="0" />
 
                                 <Button Content="Отмена"
                                         Grid.Column="3"
                                         Command="{Binding ElementName=View, Path=DataContext.CancelCommand}"
-                                        CommandParameter="{Binding}" 
-                                        Grid.Row="0"/>
+                                        CommandParameter="{Binding}"
+                                        Grid.Row="0" />
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
