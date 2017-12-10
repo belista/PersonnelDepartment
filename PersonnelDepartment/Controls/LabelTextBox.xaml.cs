@@ -37,6 +37,15 @@ namespace PersonnelDepartment.Controls
                 DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
             });
 
+        public static readonly DependencyProperty VisibilityBorderProperty = DependencyProperty.Register(
+            "VisibilityBorder",
+            typeof(Visibility),
+            typeof(LabelTextBox),
+            new FrameworkPropertyMetadata
+            {
+                DefaultValue = Visibility.Hidden
+            });
+
         public LabelTextBox()
         {
             InitializeComponent();
@@ -63,6 +72,18 @@ namespace PersonnelDepartment.Controls
             set
             {
                 SetValue(ValueProperty, value);
+            }
+        }
+
+        public Visibility VisibilityBorder
+        {
+            get
+            {
+                return (Visibility)GetValue(VisibilityProperty);
+            }
+            set
+            {
+                SetValue(VisibilityBorderProperty, value);
             }
         }
     }
