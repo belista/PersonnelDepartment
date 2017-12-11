@@ -118,7 +118,7 @@ namespace PersonnelDepartment.Models
         /// <summary>
         /// Дни работы.
         /// </summary>
-        public double WorkDays => ((DateOfDismissal ?? DateTime.Now) - EmploymentDate).TotalDays;
+        public double WorkDays => Math.Round(((DateOfDismissal ?? DateTime.Now) - EmploymentDate).TotalDays,1);
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -88,6 +88,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LabelDatePicker.xaml.cs">
+      <DependentUpon>LabelDatePicker.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LabelTextBlock.xaml.cs">
+      <DependentUpon>LabelTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LabelTextBox.xaml.cs">
       <DependentUpon>LabelTextBox.xaml</DependentUpon>
     </Compile>
@@ -104,6 +110,14 @@
     <Compile Include="Core\Services\DataProvider\EmployeeContext.cs" />
     <Compile Include="Core\Services\DataProvider\EmployeeService.cs" />
     <Compile Include="Core\Services\DataProvider\IEmployeeService.cs" />
+    <Page Include="Controls\LabelDatePicker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LabelTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\LabelTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

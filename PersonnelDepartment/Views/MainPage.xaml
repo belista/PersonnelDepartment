@@ -70,6 +70,7 @@
                       BorderThickness="0"
                       Background="Transparent"
                       Grid.Row="1"
+                      Grid.RowSpan="3"
                       Grid.Column="1"
                       Margin="12">
                 <ListView.ItemTemplate>
@@ -77,10 +78,11 @@
                         <StackPanel Grid.Row="1">
                             <TextBlock Text="{Binding FullName}"
                                        FontSize="12"
-                                       TextWrapping="Wrap" />
+                                       TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding RegistrationNumber}"
                                        FontSize="12"
-                                       TextWrapping="Wrap" />
+                                       TextWrapping="Wrap"
+                                       Margin="0 0 0 10" />
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
@@ -161,9 +163,17 @@
                                                    Value="{Binding FirstOrder}" />
                             <controls:LabelTextBox Key="Второй приказ"
                                                    Value="{Binding SecondOrder}" />
-                            <controls:LabelTextBox Key="Дополнительно" 
-                                                   Value="{Binding Additionally}" /> 
-
+                            <controls:LabelTextBox Key="Дополнительно"
+                                                   Value="{Binding Additionally}"
+                                                   VisibilityBorder="Visible" />
+                            <controls:LabelDatePicker Key="Дата Найма" 
+                                                      Value="{Binding EmploymentDate}"/>
+                            <controls:LabelDatePicker Key="День рождения"
+                                                      Value="{Binding DateOfBirth}"/>
+                            <controls:LabelDatePicker Key="Дата увольнения"
+                                                      Value="{Binding DateOfDismissal}"/>
+                            <controls:LabelTextBlock Key="Дни работы"
+                                                     Value="{Binding WorkDays}"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25" />
