@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PersonnelDepartment.Models;
+using System.Data.Entity;
 
 namespace PersonnelDepartment.Core.Services.DataProvider
 {
@@ -14,6 +13,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         public RootPasswordService(EmployeeContext db)
         {
             _db = db;
+            _db.Passwords.Load();
         }
 
         public Task<RootPassword> Get() =>
