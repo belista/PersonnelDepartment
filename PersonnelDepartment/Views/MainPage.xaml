@@ -172,8 +172,10 @@
                                                       Value="{Binding DateOfBirth}"/>
                             <controls:LabelDatePicker Key="Дата увольнения"
                                                       Value="{Binding DateOfDismissal}"/>
+                            <controls:LabelCheckBox Key="Уволен"
+                                                    Value="{Binding Dismissed}"/>
                             <controls:LabelTextBlock Key="Дни работы"
-                                                     Value="{Binding WorkDays}"/>
+                                                     Value="{Binding WorkDays}" />
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25" />

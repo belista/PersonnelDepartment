@@ -88,6 +88,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LabelCheckBox.xaml.cs">
+      <DependentUpon>LabelCheckBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LabelDatePicker.xaml.cs">
       <DependentUpon>LabelDatePicker.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
     <Compile Include="Core\Services\DataProvider\EmployeeContext.cs" />
     <Compile Include="Core\Services\DataProvider\EmployeeService.cs" />
     <Compile Include="Core\Services\DataProvider\IEmployeeService.cs" />
+    <Page Include="Controls\LabelCheckBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\LabelDatePicker.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -84,7 +84,20 @@ namespace PersonnelDepartment.Models
         /// <summary>
         /// Уволен.
         /// </summary>
-        public bool Dismissed { get; set; }
+        public bool Dismissed
+        {
+            get
+            {
+                if (DateOfDismissal == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
 
         /// <summary>
         /// Второй приказ.

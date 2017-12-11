@@ -213,7 +213,6 @@ namespace PersonnelDepartment.ViewModels
                     SecondPosition = dr["SecondPosition"].ToString(),
                     ThirdPosition = dr["ThirdPosition"].ToString(),
                     FirstOrder = dr["FirstOrder"].ToString(),
-                    Dismissed = Convert.ToBoolean(dr["Dismissed"]),
                     SecondOrder = dr["SecondOrder"].ToString(),
                     Additionally = dr["Additionally"].ToString(),
                     EmploymentDate = Convert.ToDateTime(dr["EmploymentDate"]),
