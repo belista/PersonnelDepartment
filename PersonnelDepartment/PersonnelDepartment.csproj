@@ -100,6 +100,8 @@
     <Compile Include="Controls\LabelTextBox.xaml.cs">
       <DependentUpon>LabelTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Core\Services\DataProvider\IRootPasswordService.cs" />
+    <Compile Include="Core\Services\DataProvider\RootPasswordService.cs" />
     <Compile Include="Core\Services\Excel\ExcelService.cs" />
     <Compile Include="Core\Services\Excel\IExcelService.cs" />
     <Compile Include="Models\RootPassword.cs" />
