@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="Core\Services\Excel\ExcelService.cs" />
     <Compile Include="Core\Services\Excel\IExcelService.cs" />
+    <Compile Include="Models\RootPassword.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

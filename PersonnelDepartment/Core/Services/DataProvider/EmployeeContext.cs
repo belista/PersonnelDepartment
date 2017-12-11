@@ -10,5 +10,6 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         { }
 
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<RootPassword> Passwords { get; set; }
     }
 }
