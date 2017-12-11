@@ -9,7 +9,7 @@
       xmlns:controls="clr-namespace:PersonnelDepartment.Controls"
       x:Name="View">
 
-    <Grid>
+    <Grid IsEnabled="{Binding PopupEnabled}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
             <ColumnDefinition Width="*" />
@@ -25,6 +25,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="48" />
                 <RowDefinition Height="48" />
+                <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
 
             <Rectangle Fill="#c6c6c6"
@@ -32,12 +33,17 @@
             <Button Content="Экс"
                     Height="48"
                     Command="{Binding ExportCommand}"
+                    Visibility="{Binding AdminVisibility}"
                     Grid.Row="2" />
             <Button Content="Имп"
                     Height="48"
                     Command="{Binding ImportCommand}"
-                    Grid.Row="3" />
-
+                    Grid.Row="3"
+                    Visibility="{Binding AdminVisibility}"/>
+            <Button Content="Лог"
+                    Height="48"
+                    Command="{Binding OpenLoginPopupCommand}"
+                    Grid.Row="4"/>
             <Grid Grid.Column="1"
                   Margin="12,12,12,4">
                 <Grid.RowDefinitions>
@@ -57,7 +63,8 @@
                         Command="{Binding AddCommand}"
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Height="32" />
+                        Height="32"
+                        Visibility="{Binding AdminVisibility}"/>
 
                 <TextBox Grid.Row="1"
                          Grid.ColumnSpan="2"
@@ -70,7 +77,7 @@
                       BorderThickness="0"
                       Background="Transparent"
                       Grid.Row="1"
-                      Grid.RowSpan="3"
+                      Grid.RowSpan="4"
                       Grid.Column="1"
                       Margin="12">
                 <ListView.ItemTemplate>
@@ -87,7 +94,7 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.ContextMenu>
-                    <ContextMenu>
+                    <ContextMenu Visibility="{Binding AdminVisibility}">
                         <MenuItem Header="Удалить"
                                   Command="{Binding RemoveCommand}" />
                     </ContextMenu>
@@ -176,7 +183,7 @@
                                                     Value="{Binding Dismissed}"/>
                             <controls:LabelTextBlock Key="Дни работы"
                                                      Value="{Binding WorkDays}" />
-                            <Grid>
+                            <Grid Visibility="{Binding ElementName=View, Path=DataContext.AdminVisibility}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="25" />
                                     <ColumnDefinition Width="190" />
@@ -206,5 +213,27 @@
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>
+        <Popup IsOpen="{Binding LoginPopup}"
+               StaysOpen="True"
+               Placement="Center"
+               Height="150"
+               Width="200"
+               AllowsTransparency="False">
+            <StackPanel Background="LightGray">
+                <Label Content="Пароль"/>
+                <TextBox Margin="5"
+                         Text="{Binding Password}" />
+                <Button Content="Логин"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding LoginCommand}">
+                </Button>
+                <Button Content="Отмена"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding LoginPopupCancelCommand}">
+                </Button>
+            </StackPanel>
+        </Popup>
     </Grid>
 </Page>

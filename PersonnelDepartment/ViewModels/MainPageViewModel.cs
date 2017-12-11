@@ -8,6 +8,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using PersonnelDepartment.Core.Services.Excel;
+using System.Windows;
 
 namespace PersonnelDepartment.ViewModels
 {
@@ -19,7 +20,8 @@ namespace PersonnelDepartment.ViewModels
         #region Fields
         private EmployeeContext _db;
         private IEmployeeService _employeeService;
-        private ExcelService _excelService;
+        private IExcelService _excelService;
+        private IRootPasswordService _rootPasswordService;
 
         private DelegateCommand _addCommand;
         private DelegateCommand<Employee> _saveCommand;
@@ -27,6 +29,9 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _cancelCommand;
         private DelegateCommand _exportCommand;
         private DelegateCommand _importCommand;
+        private DelegateCommand _openLoginPopupCommand;
+        private DelegateCommand _loginCommand;
+        private DelegateCommand _loginPopupCancelCommand;
         #endregion
 
 
@@ -35,6 +40,7 @@ namespace PersonnelDepartment.ViewModels
             _db = new EmployeeContext();
             _employeeService = new EmployeeService(_db);
             _excelService = new ExcelService();
+            _rootPasswordService = new RootPasswordService(_db);
             Employees = new ObservableCollection<Employee>();
 
             GetEmployee();
@@ -63,6 +69,26 @@ namespace PersonnelDepartment.ViewModels
         /// Строка поиска.
         /// </summary>
         public string QueryString { get; set; }
+
+        /// <summary>
+        /// Popup isOpen.
+        /// </summary>
+        public bool LoginPopup { get; set; } = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Visibility AdminVisibility { get; set; } = Visibility.Hidden;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool PopupEnabled { get; set; } = true;
         #endregion
 
 
@@ -102,6 +128,24 @@ namespace PersonnelDepartment.ViewModels
         /// </summary>
         public DelegateCommand ImportCommand => _importCommand ??
             (_importCommand = new DelegateCommand(() => ImportExcel()));
+
+        /// <summary>
+        /// Команда открытия окна логина.
+        /// </summary>
+        public DelegateCommand OpenLoginPopupCommand => _openLoginPopupCommand ??
+            (_openLoginPopupCommand = new DelegateCommand(() => OpenLoginPopup()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand LoginCommand => _loginCommand ??
+            (_loginCommand = new DelegateCommand(() => Login()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand LoginPopupCancelCommand => _loginPopupCancelCommand ??
+            (_loginPopupCancelCommand = new DelegateCommand(() => LoginPopupCancel()));
         #endregion
 
 
@@ -229,6 +273,26 @@ namespace PersonnelDepartment.ViewModels
                 _db.Employees.Add(employee);
             }
             _db.SaveChanges();
+        }
+
+        private void OpenLoginPopup()
+        {
+            LoginPopup = true;
+            PopupEnabled = false;
+        }
+        private void LoginPopupCancel()
+        {
+            LoginPopup = false;
+            PopupEnabled = true;
+        }
+        private async void Login()
+        {
+            if (await _rootPasswordService.Login(Password))
+            {
+                LoginPopup = false;
+                AdminVisibility = Visibility.Visible;
+                PopupEnabled = true;
+            }
         }
 
         public void Dispose()
