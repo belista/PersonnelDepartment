@@ -3,6 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:fa="http://schemas.fontawesome.io/icons/"
       mc:Ignorable="d"
       xmlns:models="clr-namespace:PersonnelDepartment.Models"
       ShowsNavigationUI="False"
@@ -15,7 +16,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#ddd">
+        <Grid Background="#f1f1f1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48" />
                 <ColumnDefinition Width="*" />
@@ -28,7 +29,7 @@
                 <RowDefinition Height="48"/>
             </Grid.RowDefinitions>
 
-            <Rectangle Fill="#c6c6c6"
+            <Rectangle Fill="#f1f1f1"
                        Grid.RowSpan="4" />
             <Button Content="Экс"
                     Height="48"
@@ -40,10 +41,16 @@
                     Command="{Binding ImportCommand}"
                     Grid.Row="3"
                     Visibility="{Binding AdminVisibility}"/>
-            <Button Content="Лог"
+            <Button ToolTip="Лог"
                     Height="48"
                     Command="{Binding OpenLoginPopupCommand}"
-                    Grid.Row="4"/>
+                    Grid.Row="4"
+                    BorderThickness="0"
+                    Background="Transparent">
+                <fa:FontAwesome Icon="Unlock"
+                                FontSize="20"
+                                Foreground="#434343"/>
+            </Button>
             <Grid Grid.Column="1"
                   Margin="12,12,12,4">
                 <Grid.RowDefinitions>
@@ -57,14 +64,23 @@
 
                 <TextBlock Text="Работники"
                            FontSize="20"
-                           VerticalAlignment="Center" />
+                           VerticalAlignment="Center"/>
 
-                <Button Content="Добавить"
+                <Button ToolTip="Добавить"
                         Command="{Binding AddCommand}"
                         Grid.Column="1"
                         VerticalAlignment="Center"
-                        Height="32"
-                        Visibility="{Binding AdminVisibility}"/>
+                        Visibility="{Binding AdminVisibility}"
+                        BorderThickness="0"
+                        Width="48"
+                        Height="48"
+                        Background="Transparent"
+                        HorizontalAlignment="Right"
+                        Margin="30 0 0 0">
+                    <fa:FontAwesome Icon="Plus"
+                                    FontSize="20"
+                                    Foreground="#434343"/>
+                </Button>
 
                 <TextBox Grid.Row="1"
                          Grid.ColumnSpan="2"
