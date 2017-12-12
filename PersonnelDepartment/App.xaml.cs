@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PersonnelDepartment.Core.Services.DataProvider;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,23 @@ namespace PersonnelDepartment
     /// </summary>
     public partial class App : Application
     {
+        private EmployeeContext _db;
+        public App()
+        {
+            _db = new EmployeeContext();
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            if (!_db.Passwords.Any())
+            {
+                _db.Passwords.Add(new Models.RootPassword
+                {
+                    Password = "admin"
+                });
+
+                _db.SaveChanges();
+            }
+        }
     }
 }
