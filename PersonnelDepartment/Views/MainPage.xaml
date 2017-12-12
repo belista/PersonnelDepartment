@@ -10,6 +10,37 @@
       xmlns:controls="clr-namespace:PersonnelDepartment.Controls"
       x:Name="View">
 
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver"
+                         Value="True">
+                    <Setter Property="Background"
+                            Value="#cbcbcc" />
+                </Trigger>
+                <Trigger Property="IsPressed"
+                         Value="true">
+                    <Setter Property="Background"
+                            Value="#b5b6b6" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    
     <Grid IsEnabled="{Binding PopupEnabled}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
@@ -31,30 +62,37 @@
 
             <Rectangle Fill="#f1f1f1"
                        Grid.RowSpan="4" />
-            <Button Content="Экс"
+            <Button ToolTip="Экспорт"
                     Height="48"
                     Command="{Binding ExportCommand}"
                     Visibility="{Binding AdminVisibility}"
-                    Grid.Row="2" />
-            <Button Content="Имп"
+                    Grid.Row="2">
+                <fa:FontAwesome Icon="Upload"
+                                FontSize="20"
+                                Foreground="#434343"/>
+            </Button>
+            <Button ToolTip="Импорт"
                     Height="48"
                     Command="{Binding ImportCommand}"
                     Grid.Row="3"
-                    Visibility="{Binding AdminVisibility}"/>
-            <Button ToolTip="Лог"
+                    Visibility="{Binding AdminVisibility}">
+                <fa:FontAwesome Icon="Download"
+                                FontSize="20"
+                                Foreground="#434343"/>
+            </Button>
+            <Button ToolTip="Логин"
                     Height="48"
                     Command="{Binding OpenLoginPopupCommand}"
                     Grid.Row="4"
-                    BorderThickness="0"
-                    Background="Transparent">
+                    BorderThickness="0">
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
                                 Foreground="#434343"/>
             </Button>
             <Grid Grid.Column="1"
-                  Margin="12,12,12,4">
+                  Margin="0,12,12,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="40" />
+                    <RowDefinition Height="60" />
                     <RowDefinition Height="32" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -71,10 +109,8 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Visibility="{Binding AdminVisibility}"
-                        BorderThickness="0"
                         Width="48"
                         Height="48"
-                        Background="Transparent"
                         HorizontalAlignment="Right"
                         Margin="30 0 0 0">
                     <fa:FontAwesome Icon="Plus"
@@ -84,7 +120,7 @@
 
                 <TextBox Grid.Row="1"
                          Grid.ColumnSpan="2"
-                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
             </Grid>
 
             <ListView x:Name="EmployeeList"
@@ -95,15 +131,46 @@
                       Grid.Row="1"
                       Grid.RowSpan="4"
                       Grid.Column="1"
-                      Margin="12">
+                      Margin="0 20 0 0">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="Transparent"
+                                            BorderThickness="1">
+                                        <ContentPresenter HorizontalAlignment="Left"
+                                                          VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="#dedede" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        Value="#9b9a99"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListView.ItemContainerStyle>
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Grid.Row="1">
+                        <StackPanel Grid.Row="1"
+                                    Margin="10 10 0 0">
                             <TextBlock Text="{Binding FullName}"
-                                       FontSize="12"
+                                       FontSize="14"
                                        TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding RegistrationNumber}"
-                                       FontSize="12"
+                                       FontSize="14"
                                        TextWrapping="Wrap"
                                        Margin="0 0 0 10" />
                         </StackPanel>
