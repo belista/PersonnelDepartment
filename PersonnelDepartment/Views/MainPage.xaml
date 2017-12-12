@@ -40,7 +40,7 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    
+
     <Grid IsEnabled="{Binding PopupEnabled}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400" />
@@ -57,11 +57,12 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="48" />
                 <RowDefinition Height="48" />
-                <RowDefinition Height="48"/>
+                <RowDefinition Height="48" />
+                <RowDefinition Height="48" />
             </Grid.RowDefinitions>
 
             <Rectangle Fill="#f1f1f1"
-                       Grid.RowSpan="4" />
+                       Grid.RowSpan="5" />
             <Button ToolTip="Экспорт"
                     Height="48"
                     Command="{Binding ExportCommand}"
@@ -69,7 +70,7 @@
                     Grid.Row="2">
                 <fa:FontAwesome Icon="Upload"
                                 FontSize="20"
-                                Foreground="#434343"/>
+                                Foreground="#434343" />
             </Button>
             <Button ToolTip="Импорт"
                     Height="48"
@@ -78,16 +79,24 @@
                     Visibility="{Binding AdminVisibility}">
                 <fa:FontAwesome Icon="Download"
                                 FontSize="20"
+                                Foreground="#434343" />
+            </Button>
+            <Button ToolTip="Печать"
+                    Height="48"
+                    Command="{Binding}"
+                    Grid.Row="4">
+                <fa:FontAwesome Icon="Print"
+                                FontSize="20"
                                 Foreground="#434343"/>
             </Button>
             <Button ToolTip="Логин"
                     Height="48"
                     Command="{Binding OpenLoginPopupCommand}"
-                    Grid.Row="4"
+                    Grid.Row="5"
                     BorderThickness="0">
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
-                                Foreground="#434343"/>
+                                Foreground="#434343" />
             </Button>
             <Grid Grid.Column="1"
                   Margin="0,12,12,4">
@@ -102,7 +111,7 @@
 
                 <TextBlock Text="Работники"
                            FontSize="20"
-                           VerticalAlignment="Center"/>
+                           VerticalAlignment="Center" />
 
                 <Button ToolTip="Добавить"
                         Command="{Binding AddCommand}"
@@ -115,12 +124,12 @@
                         Margin="30 0 0 0">
                     <fa:FontAwesome Icon="Plus"
                                     FontSize="20"
-                                    Foreground="#434343"/>
+                                    Foreground="#434343" />
                 </Button>
 
                 <TextBox Grid.Row="1"
                          Grid.ColumnSpan="2"
-                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                         Text="{Binding QueryString, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
             </Grid>
 
             <ListView x:Name="EmployeeList"
@@ -156,7 +165,7 @@
                             <Trigger Property="IsSelected"
                                      Value="true">
                                 <Setter Property="Background"
-                                        Value="#9b9a99"/>
+                                        Value="#9b9a99" />
                             </Trigger>
                         </Style.Triggers>
                     </Style>
@@ -168,7 +177,7 @@
                                     Margin="10 10 0 0">
                             <TextBlock Text="{Binding FullName}"
                                        FontSize="14"
-                                       TextWrapping="Wrap"/>
+                                       TextWrapping="Wrap" />
                             <TextBlock Text="{Binding RegistrationNumber}"
                                        FontSize="14"
                                        TextWrapping="Wrap"
@@ -228,12 +237,12 @@
                             <controls:LabelTextBox Key="Вторая фамилия"
                                                    Value="{Binding SecondSurname}" />
                             <controls:LabelTextBox Key="Третья фамилия"
-                                                   Value="{Binding ThirdSurname}"/>
+                                                   Value="{Binding ThirdSurname}" />
                             <controls:LabelTextBox Key="Имя"
                                                    Value="{Binding Name}" />
                             <controls:LabelTextBox Key="Отчество"
-                                                   Value="{Binding Patronymic}" 
-                                                   VisibilityBorder="Visible"/>
+                                                   Value="{Binding Patronymic}"
+                                                   VisibilityBorder="Visible" />
                             <controls:LabelTextBox Key="Паспортные данные"
                                                    Value="{Binding PassportInfo}" />
                             <controls:LabelTextBox Key="Проживание"
@@ -241,8 +250,8 @@
                             <controls:LabelTextBox Key="ИНН"
                                                    Value="{Binding RegistrationNumber}" />
                             <controls:LabelTextBox Key="Телефон"
-                                                   Value="{Binding Phone}" 
-                                                   VisibilityBorder="Visible"/>
+                                                   Value="{Binding Phone}"
+                                                   VisibilityBorder="Visible" />
                             <controls:LabelTextBox Key="Должность"
                                                    Value="{Binding FirstPosition}" />
                             <controls:LabelTextBox Key="Вторая должность"
@@ -256,14 +265,14 @@
                             <controls:LabelTextBox Key="Дополнительно"
                                                    Value="{Binding Additionally}"
                                                    VisibilityBorder="Visible" />
-                            <controls:LabelDatePicker Key="Дата Найма" 
-                                                      Value="{Binding EmploymentDate}"/>
+                            <controls:LabelDatePicker Key="Дата Найма"
+                                                      Value="{Binding EmploymentDate}" />
                             <controls:LabelDatePicker Key="День рождения"
-                                                      Value="{Binding DateOfBirth}"/>
+                                                      Value="{Binding DateOfBirth}" />
                             <controls:LabelDatePicker Key="Дата увольнения"
-                                                      Value="{Binding DateOfDismissal}"/>
+                                                      Value="{Binding DateOfDismissal}" />
                             <controls:LabelCheckBox Key="Уволен"
-                                                    Value="{Binding Dismissed}"/>
+                                                    Value="{Binding Dismissed}" />
                             <controls:LabelTextBlock Key="Дни работы"
                                                      Value="{Binding WorkDays}" />
                             <Grid Visibility="{Binding ElementName=View, Path=DataContext.AdminVisibility}">
@@ -303,7 +312,7 @@
                Width="200"
                AllowsTransparency="False">
             <StackPanel Background="LightGray">
-                <Label Content="Пароль"/>
+                <Label Content="Пароль" />
                 <TextBox Margin="5"
                          Text="{Binding Password}" />
                 <Button Content="Логин"
