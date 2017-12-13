@@ -41,7 +41,7 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _logGuestCommand;
         #endregion
 
-
+        #region Ctors
         public MainPageViewModel()
         {
             _db = new EmployeeContext();
@@ -51,16 +51,15 @@ namespace PersonnelDepartment.ViewModels
             Employees = new ObservableCollection<Employee>();
 
             GetEmployee();
-        }
-
+        } 
+        #endregion
 
         #region INotifyPropertyChanged implementation
 #pragma warning disable 0067
         public event PropertyChangedEventHandler PropertyChanged;
 #pragma warning restore 0067
         #endregion
-
-
+        
         #region Properties
         /// <summary>
         /// Коллекция работников.
@@ -78,52 +77,51 @@ namespace PersonnelDepartment.ViewModels
         public string QueryString { get; set; }
 
         /// <summary>
-        /// Popup isOpen.
+        /// Popup Логина.
         /// </summary>
         public bool LoginPopup { get; set; } = false;
 
         /// <summary>
-        /// 
+        /// Popup смена пароля.
         /// </summary>
         public bool ChangePasswordPopup { get; set; } = false;
 
         /// <summary>
-        /// 
+        /// Режим админа.
         /// </summary>
         public Visibility AdminVisibility { get; set; } = Visibility.Hidden;
 
         /// <summary>
-        /// 
+        /// Режим гостя.
         /// </summary>
         public Visibility GuestVisibility { get; set; } = Visibility.Visible;
 
         /// <summary>
-        /// 
+        /// Пароль.
         /// </summary>
         public string Password { get; set; }
 
         /// <summary>
-        /// 
+        /// Старый пароль.
         /// </summary>
         public string OldPassword { get; set; }
 
         /// <summary>
-        /// 
+        /// Новый пароль.
         /// </summary>
         public string NewPassword { get; set; }
 
         /// <summary>
-        /// 
+        /// Блокировка Grid.
         /// </summary>
         public bool PopupEnabled { get; set; } = true;
 
         /// <summary>
-        /// 
+        /// Popup Выхода.
         /// </summary>
         public bool ExitPopup { get; set; } = false;
         #endregion
-
-
+        
         #region Commands
         /// <summary>
         /// Команда добавления работника.
@@ -168,13 +166,13 @@ namespace PersonnelDepartment.ViewModels
             (_openLoginPopupCommand = new DelegateCommand(() => OpenLoginPopup()));
 
         /// <summary>
-        /// 
+        /// Команда логина.
         /// </summary>
         public DelegateCommand LoginCommand => _loginCommand ??
             (_loginCommand = new DelegateCommand(() => Login()));
 
         /// <summary>
-        /// 
+        /// Команда отмены в Popup.
         /// </summary>
         public DelegateCommand PopupCancelCommand => _popupCancelCommand ??
             (_popupCancelCommand = new DelegateCommand(() => PopupCancel()));
@@ -186,31 +184,34 @@ namespace PersonnelDepartment.ViewModels
             (_openPrintPageCommand = new DelegateCommand(() => OpenPrintPage()));
 
         /// <summary>
-        /// 
+        /// Команда открытия окна смены пароля.
         /// </summary>
         public DelegateCommand OpenChangePasswordPopupCommand => _openChangePasswordPopupCommand ??
             (_openChangePasswordPopupCommand = new DelegateCommand(() => OpenChangePasswordPopup()));
 
         /// <summary>
-        /// 
+        /// Команда смены пароля.
         /// </summary>
         public DelegateCommand ChangePasswordCommand => _changePasswordCommand ??
             (_changePasswordCommand = new DelegateCommand(() => ChangePassword()));
 
         /// <summary>
-        /// 
+        /// Команда открытия окна выхода.
         /// </summary>
         public DelegateCommand OpenExitPopupCommand => _openExitPopupCommand ??
             (_openExitPopupCommand = new DelegateCommand(() => OpenExitPopup()));
 
         /// <summary>
-        /// 
+        /// Команда выхода.
         /// </summary>
         public DelegateCommand LogGuestCommand => _logGuestCommand ??
             (_logGuestCommand = new DelegateCommand(() => LogGuest()));
         #endregion
 
-
+        #region Non-Public Methods
+        /// <summary>
+        /// Получение работников.
+        /// </summary>
         private async void GetEmployee()
         {
             var employeeList = await _employeeService.GetAsync();
@@ -314,7 +315,6 @@ namespace PersonnelDepartment.ViewModels
 
                 var employee = new Employee
                 {
-                    Id = _db.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Employees', RESEED, {i})"),
                     FirstSurname = dr["FirstSurname"].ToString(),
                     SecondSurname = dr["SecondSurname"].ToString(),
                     ThirdSurname = dr["ThirdSurname"].ToString(),
@@ -387,7 +387,7 @@ namespace PersonnelDepartment.ViewModels
 
         private async void ChangePassword()
         {
-            if (!await _rootPasswordService.Сhange(OldPassword,NewPassword))
+            if (!await _rootPasswordService.Сhange(OldPassword, NewPassword))
             {
                 OldPassword = "Не правильный пароль";
                 return;
@@ -411,6 +411,7 @@ namespace PersonnelDepartment.ViewModels
             AdminVisibility = Visibility.Hidden;
             GuestVisibility = Visibility.Visible;
         }
+        #endregion
 
         public void Dispose()
         {
