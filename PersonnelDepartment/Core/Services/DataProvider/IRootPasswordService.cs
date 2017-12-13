@@ -10,7 +10,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
     public interface IRootPasswordService
     {
         Task<RootPassword> Get();
-        Task Сhange(string oldPassword, string newPassword);
+        Task<bool> Сhange(string oldPassword, string newPassword);
         Task<bool> Login(string password);
     }
 }

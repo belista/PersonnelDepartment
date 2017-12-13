@@ -37,6 +37,8 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _openChangePasswordPopupCommand;
         private DelegateCommand _popupCancelCommand;
         private DelegateCommand _changePasswordCommand;
+        private DelegateCommand _openExitPopupCommand;
+        private DelegateCommand _logGuestCommand;
         #endregion
 
 
@@ -93,6 +95,11 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// 
         /// </summary>
+        public Visibility GuestVisibility { get; set; } = Visibility.Visible;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public string Password { get; set; }
 
         /// <summary>
@@ -109,6 +116,11 @@ namespace PersonnelDepartment.ViewModels
         /// 
         /// </summary>
         public bool PopupEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool ExitPopup { get; set; } = false;
         #endregion
 
 
@@ -179,8 +191,23 @@ namespace PersonnelDepartment.ViewModels
         public DelegateCommand OpenChangePasswordPopupCommand => _openChangePasswordPopupCommand ??
             (_openChangePasswordPopupCommand = new DelegateCommand(() => OpenChangePasswordPopup()));
 
+        /// <summary>
+        /// 
+        /// </summary>
         public DelegateCommand ChangePasswordCommand => _changePasswordCommand ??
             (_changePasswordCommand = new DelegateCommand(() => ChangePassword()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand OpenExitPopupCommand => _openExitPopupCommand ??
+            (_openExitPopupCommand = new DelegateCommand(() => OpenExitPopup()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand LogGuestCommand => _logGuestCommand ??
+            (_logGuestCommand = new DelegateCommand(() => LogGuest()));
         #endregion
 
 
@@ -202,9 +229,13 @@ namespace PersonnelDepartment.ViewModels
         }
 
 
-        private async void SaveEmployee(Employee empl) =>
-            await _employeeService.SaveOrUpdateAsync(empl);
-
+        private async void SaveEmployee(Employee empl)
+        {
+            if (!await _employeeService.SaveOrUpdateAsync(empl))
+            {
+                SelectedEmployee = null;
+            }
+        }
 
         private async void RemoveEmployee()
         {
@@ -320,35 +351,65 @@ namespace PersonnelDepartment.ViewModels
             LoginPopup = true;
             PopupEnabled = false;
         }
+
         private void PopupCancel()
         {
             LoginPopup = false;
             ChangePasswordPopup = false;
+            ExitPopup = false;
             PopupEnabled = true;
         }
+
         private async void Login()
         {
-            if (await _rootPasswordService.Login(Password))
+            if (!await _rootPasswordService.Login(Password))
             {
-                LoginPopup = false;
-                AdminVisibility = Visibility.Visible;
-                PopupEnabled = true;
+                Password = "Не правильный пароль";
+                return;
             }
+            LoginPopup = false;
+            AdminVisibility = Visibility.Visible;
+            GuestVisibility = Visibility.Hidden;
+            PopupEnabled = true;
+            Password = null;
         }
+
         private void OpenPrintPage()
         {
 
         }
+
         private void OpenChangePasswordPopup()
         {
             ChangePasswordPopup = true;
             PopupEnabled = false;
         }
-        private void ChangePassword()
+
+        private async void ChangePassword()
         {
-            _rootPasswordService.Сhange(OldPassword, NewPassword);
+            if (!await _rootPasswordService.Сhange(OldPassword,NewPassword))
+            {
+                OldPassword = "Не правильный пароль";
+                return;
+            }
             ChangePasswordPopup = false;
             PopupEnabled = true;
+            OldPassword = null;
+            NewPassword = null;
+        }
+
+        private void OpenExitPopup()
+        {
+            ExitPopup = true;
+            PopupEnabled = false;
+        }
+
+        private void LogGuest()
+        {
+            ExitPopup = false;
+            PopupEnabled = true;
+            AdminVisibility = Visibility.Hidden;
+            GuestVisibility = Visibility.Visible;
         }
 
         public void Dispose()

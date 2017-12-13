@@ -94,7 +94,7 @@
                                 <SolidColorBrush Color="#cbcbcc" />
                             </Border.BorderBrush>
                             <StackPanel IsItemsHost="True"
-                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="HasDropShadow"
@@ -171,13 +171,29 @@
                     Height="48"
                     Command="{Binding OpenLoginPopupCommand}"
                     Grid.Row="5"
-                    BorderThickness="0">
+                    BorderThickness="0"
+                    Visibility="{Binding GuestVisibility}">
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
                                 Foreground="#434343" />
                 <Button.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Сменить пароль"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+            <Button ToolTip="Выход"
+                    Height="48"
+                    Command="{Binding OpenExitPopupCommand}"
+                    Grid.Row="5"
+                    BorderThickness="0"
+                    Visibility="{Binding AdminVisibility}">
+                <fa:FontAwesome Icon="Lock"
+                                FontSize="20"
+                                Foreground="#434343" />
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Сменить пароль" />
                     </ContextMenu>
                 </Button.ContextMenu>
             </Button>
@@ -430,6 +446,26 @@
                         Height="30"
                         Command="{Binding ChangePasswordCommand}">
                 </Button>
+                <Button Content="Отмена"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding PopupCancelCommand}">
+                </Button>
+            </StackPanel>
+        </Popup>
+        <Popup IsOpen="{Binding ExitPopup}"
+               StaysOpen="True"
+               Placement="Center"
+               Height="110"
+               Width="200"
+               AllowsTransparency="False">
+            <StackPanel Background="LightGray">
+                <Label Content="Зайти как гость?" 
+                       HorizontalAlignment="Center"/>
+                <Button Content="Да"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding LogGuestCommand}"/>
                 <Button Content="Отмена"
                         Margin="5"
                         Height="30"

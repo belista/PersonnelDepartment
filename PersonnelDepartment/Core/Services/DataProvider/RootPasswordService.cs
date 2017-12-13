@@ -22,14 +22,20 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         public Task<bool> Login(string password) =>
             Task.Run(() => _db.Passwords.FirstOrDefault().Password == password ? true : false);
 
-        public Task Сhange(string oldPassword, string newPassword)
+        public Task<bool> Сhange(string oldPassword, string newPassword)
         {
             return Task.Run(() =>
             {
-                var password = _db.Passwords.SingleOrDefault(p => p.Password == oldPassword) ?? throw new InvalidOperationException();
+                var password = _db.Passwords.SingleOrDefault(p => p.Password == oldPassword);
 
-                password.Password = newPassword;
-                _db.SaveChanges();
+                if (password != null)
+                {
+                    password.Password = newPassword;
+                    _db.SaveChanges();
+                    return true;
+                }
+
+                return false;
             });
         }
     }
