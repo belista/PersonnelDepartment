@@ -265,14 +265,16 @@ namespace PersonnelDepartment.ViewModels
             _excelService.SaveExcel(dt);
         }
 
-        private void ImportExcel()
+        private async void ImportExcel()
         {
             var dt = _excelService.OpenExcel();
 
-            if (dt != null)
+            if (dt.Rows != null)
             {
                 Employees.Clear();
-                _db.Database.ExecuteSqlCommand("TRUNCATE TABLE Employees");
+                _db.Employees.RemoveRange(_db.Employees);
+                _db.SaveChanges();
+                await _employeeService.Reset();
             }
 
             for (int i = 0; i < dt.Rows.Count; i++)
@@ -281,6 +283,7 @@ namespace PersonnelDepartment.ViewModels
 
                 var employee = new Employee
                 {
+                    Id = _db.Database.ExecuteSqlCommand($"DBCC CHECKIDENT('Employees', RESEED, {i})"),
                     FirstSurname = dr["FirstSurname"].ToString(),
                     SecondSurname = dr["SecondSurname"].ToString(),
                     ThirdSurname = dr["ThirdSurname"].ToString(),

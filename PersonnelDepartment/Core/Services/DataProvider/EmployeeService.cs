@@ -17,7 +17,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         public EmployeeService(EmployeeContext db)
         {
             _db = db;
-            db.Employees.Load();
+            _db.Employees.Load();
         }
 
         /// <summary>
@@ -54,11 +54,6 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                 try
                 {
                     var employee = _db.Employees.SingleOrDefault(u => u.Id == id);
-
-                    if (employee == null)
-                    {
-                        return null;
-                    }
 
                     return employee;
                 }
@@ -143,5 +138,12 @@ namespace PersonnelDepartment.Core.Services.DataProvider
                 }
             });
         }
+
+        public Task Reset()
+            => Task.Run(() =>
+            {
+                _db.Database.ExecuteSqlCommand("TRUNCATE TABLE Employees");
+                _db.SaveChanges();
+            });
     }
 }

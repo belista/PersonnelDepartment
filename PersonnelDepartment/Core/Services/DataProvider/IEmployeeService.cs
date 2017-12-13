@@ -19,6 +19,8 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         Task<Employee> GetById(int id);
          
 
-        Task<bool> SaveOrUpdateAsync(Employee employee); 
+        Task<bool> SaveOrUpdateAsync(Employee employee);
+
+        Task Reset();
     }
 }
