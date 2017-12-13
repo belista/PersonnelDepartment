@@ -39,7 +39,6 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _changePasswordCommand;
         private DelegateCommand _openExitPopupCommand;
         private DelegateCommand _logGuestCommand;
-        private DelegateCommand _openRemovePopupCommand;
         #endregion
 
         #region Ctors
@@ -144,31 +143,31 @@ namespace PersonnelDepartment.ViewModels
         /// Команда удаления работника.
         /// </summary>
         public DelegateCommand RemoveCommand => _removeCommand ??
-            (_removeCommand = new DelegateCommand(() => RemoveEmployee()));
+            (_removeCommand = new DelegateCommand(RemoveEmployee));
 
         /// <summary>
         /// Команда отмены.
         /// </summary>
         public DelegateCommand CancelCommand => _cancelCommand ??
-            (_cancelCommand = new DelegateCommand(() => Cancel()));
+            (_cancelCommand = new DelegateCommand(Cancel));
 
         /// <summary>
         /// Команда экспорта.
         /// </summary>
         public DelegateCommand ExportCommand => _exportCommand ??
-            (_exportCommand = new DelegateCommand(() => GetData()));
+            (_exportCommand = new DelegateCommand(GetData));
 
         /// <summary>
         /// Команда импорта.
         /// </summary>
         public DelegateCommand ImportCommand => _importCommand ??
-            (_importCommand = new DelegateCommand(() => ImportExcel()));
+            (_importCommand = new DelegateCommand(ImportExcel));
 
         /// <summary>
         /// Команда открытия окна логина.
         /// </summary>
         public DelegateCommand OpenLoginPopupCommand => _openLoginPopupCommand ??
-            (_openLoginPopupCommand = new DelegateCommand(() => OpenLoginPopup()));
+            (_openLoginPopupCommand = new DelegateCommand(OpenLoginPopup));
 
         /// <summary>
         /// Команда логина.
@@ -211,12 +210,6 @@ namespace PersonnelDepartment.ViewModels
         /// </summary>
         public DelegateCommand LogGuestCommand => _logGuestCommand ??
             (_logGuestCommand = new DelegateCommand(() => LogGuest()));
-
-        /// <summary>
-        /// Команда открытия окна удаления.
-        /// </summary>
-        public DelegateCommand OpenRemovePopupCommand => _openRemovePopupCommand ??
-            (_openRemovePopupCommand = new DelegateCommand(() => OpenRemovePopup()));
         #endregion
 
         #region Non-Public Methods
@@ -424,12 +417,6 @@ namespace PersonnelDepartment.ViewModels
             PopupEnabled = true;
             AdminVisibility = Visibility.Hidden;
             GuestVisibility = Visibility.Visible;
-        }
-
-        private void OpenRemovePopup()
-        {
-            RemovePopup = true;
-            PopupEnabled = false;
         }
         #endregion
 

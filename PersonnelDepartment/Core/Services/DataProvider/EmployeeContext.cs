@@ -6,6 +6,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
     public class EmployeeContext : DbContext
     {
         private static EmployeeContext _instance;
+        private static object syncObject = new object();
 
         public EmployeeContext() 
             :base("DefaultConnection")
@@ -15,12 +16,15 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         {
             get
             {
-                if (_instance == null)
+                lock (syncObject)
                 {
-                    _instance = new EmployeeContext();
+                    if (_instance == null)
+                    {
+                        _instance = new EmployeeContext();
+                    }
+
+                    return _instance; 
                 }
-                
-                return _instance;
             }
         }
 

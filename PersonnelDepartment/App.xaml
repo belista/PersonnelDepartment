@@ -5,11 +5,11 @@
     <Application.Resources>
 
         <SolidColorBrush x:Key="TextBox.Static.Border"
-                         Color="#FFABAdB3" />
+                         Color="#999" />
         <SolidColorBrush x:Key="TextBox.MouseOver.Border"
-                         Color="#FF7EB4EA" />
+                         Color="#555" />
         <SolidColorBrush x:Key="TextBox.Focus.Border"
-                         Color="#FF569DE5" />
+                         Color="#000" />
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="Background"
                     Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />

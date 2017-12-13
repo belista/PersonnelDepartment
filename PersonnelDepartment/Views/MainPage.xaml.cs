@@ -15,5 +15,16 @@ namespace PersonnelDepartment.Views
             InitializeComponent();
             DataContext = new MainPageViewModel();
         }
+
+        public void Print()
+        {
+            var printDialog = new PrintDialog();
+            printDialog.PrintVisual(ContentPresenter,"Printing...");
+        }
+
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Print();
+        }
     }
 }
