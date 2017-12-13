@@ -220,6 +220,8 @@ namespace PersonnelDepartment.ViewModels
             {
                 Employees.Add(employee);
             }
+
+            Employees = new ObservableCollection<Employee>(Employees.OrderBy(i => i.FirstSurname));
         }
 
         private void AddEmployee()
