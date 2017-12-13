@@ -14,11 +14,7 @@ namespace PersonnelDepartment
     /// </summary>
     public partial class App : Application
     {
-        private EmployeeContext _db;
-        public App()
-        {
-            _db = new EmployeeContext();
-        }
+        private EmployeeContext _db => EmployeeContext.Instance;
 
         protected override void OnStartup(StartupEventArgs e)
         {

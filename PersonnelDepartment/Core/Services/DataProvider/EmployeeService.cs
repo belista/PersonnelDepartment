@@ -13,10 +13,10 @@ namespace PersonnelDepartment.Core.Services.DataProvider
     /// </summary>
     public class EmployeeService : IEmployeeService
     {
-        private EmployeeContext _db;
-        public EmployeeService(EmployeeContext db)
+        private EmployeeContext _db => EmployeeContext.Instance;
+
+        public EmployeeService()
         {
-            _db = db;
             _db.Employees.Load();
         }
 

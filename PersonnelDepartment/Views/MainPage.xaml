@@ -176,11 +176,6 @@
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
                                 Foreground="#434343" />
-                <Button.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Сменить пароль"/>
-                    </ContextMenu>
-                </Button.ContextMenu>
             </Button>
             <Button ToolTip="Выход"
                     Height="48"
@@ -287,7 +282,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu Visibility="{Binding AdminVisibility}">
                         <MenuItem Header="Удалить"
-                                  Command="{Binding RemoveCommand}" />
+                                  Command="{Binding OpenRemovePopupCommand}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -444,13 +439,11 @@
                 <Button Content="Сменить пароль"
                         Margin="5"
                         Height="30"
-                        Command="{Binding ChangePasswordCommand}">
-                </Button>
+                        Command="{Binding ChangePasswordCommand}" />
                 <Button Content="Отмена"
                         Margin="5"
                         Height="30"
-                        Command="{Binding PopupCancelCommand}">
-                </Button>
+                        Command="{Binding PopupCancelCommand}" />
             </StackPanel>
         </Popup>
         <Popup IsOpen="{Binding ExitPopup}"
@@ -469,8 +462,43 @@
                 <Button Content="Отмена"
                         Margin="5"
                         Height="30"
-                        Command="{Binding PopupCancelCommand}">
-                </Button>
+                        Command="{Binding PopupCancelCommand}" />
+            </StackPanel>
+        </Popup>
+        <Popup IsOpen="{Binding ExitPopup}"
+               StaysOpen="True"
+               Placement="Center"
+               Height="110"
+               Width="200"
+               AllowsTransparency="False">
+            <StackPanel Background="LightGray">
+                <Label Content="Зайти как гость?" 
+                       HorizontalAlignment="Center"/>
+                <Button Content="Да"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding LogGuestCommand}"/>
+                <Button Content="Отмена"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding PopupCancelCommand}" />
+            </StackPanel>
+        </Popup>
+        <Popup IsOpen="{Binding RemovePopup}"
+               StaysOpen="True"
+               Placement="Center"
+               Height="110"
+               Width="200"
+               AllowsTransparency="False">
+            <StackPanel Background="LightGray">
+                <Button Content="Удалить"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding RemoveCommand}" />
+                <Button Content="Отмена"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding PopupCancelCommand}"/>
             </StackPanel>
         </Popup>
     </Grid>

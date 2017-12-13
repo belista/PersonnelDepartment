@@ -20,7 +20,7 @@ namespace PersonnelDepartment.ViewModels
     public class MainPageViewModel : INotifyPropertyChanged, IDisposable
     {
         #region Fields
-        private EmployeeContext _db;
+        private EmployeeContext _db => EmployeeContext.Instance;
         private IEmployeeService _employeeService;
         private IExcelService _excelService;
         private IRootPasswordService _rootPasswordService;
@@ -39,15 +39,15 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _changePasswordCommand;
         private DelegateCommand _openExitPopupCommand;
         private DelegateCommand _logGuestCommand;
+        private DelegateCommand _openRemovePopupCommand;
         #endregion
 
         #region Ctors
         public MainPageViewModel()
         {
-            _db = new EmployeeContext();
-            _employeeService = new EmployeeService(_db);
+            _employeeService = new EmployeeService();
             _excelService = new ExcelService();
-            _rootPasswordService = new RootPasswordService(_db);
+            _rootPasswordService = new RootPasswordService();
             Employees = new ObservableCollection<Employee>();
 
             GetEmployee();
@@ -120,8 +120,13 @@ namespace PersonnelDepartment.ViewModels
         /// Popup Выхода.
         /// </summary>
         public bool ExitPopup { get; set; } = false;
+
+        /// <summary>
+        /// Popup удаления.
+        /// </summary>
+        public bool RemovePopup { get; set; } = false;
         #endregion
-        
+
         #region Commands
         /// <summary>
         /// Команда добавления работника.
@@ -206,6 +211,12 @@ namespace PersonnelDepartment.ViewModels
         /// </summary>
         public DelegateCommand LogGuestCommand => _logGuestCommand ??
             (_logGuestCommand = new DelegateCommand(() => LogGuest()));
+
+        /// <summary>
+        /// Команда открытия окна удаления.
+        /// </summary>
+        public DelegateCommand OpenRemovePopupCommand => _openRemovePopupCommand ??
+            (_openRemovePopupCommand = new DelegateCommand(() => OpenRemovePopup()));
         #endregion
 
         #region Non-Public Methods
@@ -359,6 +370,7 @@ namespace PersonnelDepartment.ViewModels
             LoginPopup = false;
             ChangePasswordPopup = false;
             ExitPopup = false;
+            RemovePopup = false;
             PopupEnabled = true;
         }
 
@@ -412,6 +424,12 @@ namespace PersonnelDepartment.ViewModels
             PopupEnabled = true;
             AdminVisibility = Visibility.Hidden;
             GuestVisibility = Visibility.Visible;
+        }
+
+        private void OpenRemovePopup()
+        {
+            RemovePopup = true;
+            PopupEnabled = false;
         }
         #endregion
 

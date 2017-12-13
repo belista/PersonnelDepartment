@@ -8,11 +8,10 @@ namespace PersonnelDepartment.Core.Services.DataProvider
 {
     public class RootPasswordService : IRootPasswordService
     {
-        private EmployeeContext _db;
+        private EmployeeContext _db => EmployeeContext.Instance;
 
-        public RootPasswordService(EmployeeContext db)
+        public RootPasswordService()
         {
-            _db = db;
             _db.Passwords.Load();
         }
 
