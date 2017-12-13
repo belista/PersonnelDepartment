@@ -33,7 +33,6 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _importCommand;
         private DelegateCommand _openLoginPopupCommand;
         private DelegateCommand _loginCommand;
-        private DelegateCommand _PopupCancelCommand;
         private DelegateCommand _openPrintPageCommand;
         private DelegateCommand _openChangePasswordPopupCommand;
         private DelegateCommand _popupCancelCommand;
@@ -244,7 +243,9 @@ namespace PersonnelDepartment.ViewModels
         private void Cancel()
         {
             Employees.Clear();
+
             GetEmployee();
+
             SelectedEmployee = null;
         }
 

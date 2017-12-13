@@ -1,5 +1,6 @@
 ﻿using PersonnelDepartment.Models;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Threading.Tasks;
 
 namespace PersonnelDepartment.Core.Services.DataProvider
@@ -9,7 +10,7 @@ namespace PersonnelDepartment.Core.Services.DataProvider
     /// </summary>
     public interface IEmployeeService
     {
-        Task<List<Employee>> GetAsync();
+        Task<DbRawSqlQuery<Employee>> GetAsync();
 
 
         Task<bool> RemoveAsync(Employee user); 

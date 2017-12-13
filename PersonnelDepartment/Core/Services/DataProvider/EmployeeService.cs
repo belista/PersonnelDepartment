@@ -1,7 +1,7 @@
 ﻿using PersonnelDepartment.Models;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,17 +24,13 @@ namespace PersonnelDepartment.Core.Services.DataProvider
         /// Возвращает всех работников.
         /// </summary>
         /// <returns></returns>
-        public Task<List<Employee>> GetAsync()
+        public Task<DbRawSqlQuery<Employee>> GetAsync()
         {
             return Task.Run(() =>
             {
                 try
                 {
-                    var employees = _db.Employees.ToList();
-                    if (employees == null)
-                    {
-                        return null;
-                    }
+                    var employees = _db.Database.SqlQuery<Employee>("SELECT * FROM Employees");
 
                     return employees;
                 }
