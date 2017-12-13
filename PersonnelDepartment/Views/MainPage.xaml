@@ -19,25 +19,94 @@
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent"
-                                BorderThickness="1">
+                                BorderThickness="1"
+                                x:Name="border">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center" />
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#cbcbcc" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#b5b6b6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver"
-                         Value="True">
-                    <Setter Property="Background"
-                            Value="#cbcbcc" />
-                </Trigger>
-                <Trigger Property="IsPressed"
-                         Value="true">
-                    <Setter Property="Background"
-                            Value="#b5b6b6" />
-                </Trigger>
-            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="#cbcbcc" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="2"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="#7a7a7a" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#b5b6b6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="{x:Type ContextMenu}">
+            <Setter Property="SnapsToDevicePixels"
+                    Value="True" />
+            <Setter Property="OverridesDefaultStyle"
+                    Value="True" />
+            <Setter Property="Grid.IsSharedSizeScope"
+                    Value="true" />
+            <Setter Property="HasDropShadow"
+                    Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border x:Name="Border"
+                                Background="#f1f1f1"
+                                BorderThickness="1">
+                            <Border.BorderBrush>
+                                <SolidColorBrush Color="#cbcbcc" />
+                            </Border.BorderBrush>
+                            <StackPanel IsItemsHost="True"
+                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasDropShadow"
+                                     Value="true">
+                                <Setter TargetName="Border"
+                                        Property="Padding"
+                                        Value="0,3,0,3" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Page.Resources>
 
@@ -63,6 +132,15 @@
 
             <Rectangle Fill="#f1f1f1"
                        Grid.RowSpan="5" />
+            <Button ToolTip="Смена пароля"
+                    Height="48"
+                    Command="{Binding OpenChangePasswordPopupCommand}"
+                    Grid.Row="0"
+                    VerticalAlignment="Top">
+                <fa:FontAwesome Icon="Cog"
+                                FontSize="20"
+                                Foreground="#434343"/>
+            </Button>
             <Button ToolTip="Экспорт"
                     Height="48"
                     Command="{Binding ExportCommand}"
@@ -83,7 +161,7 @@
             </Button>
             <Button ToolTip="Печать"
                     Height="48"
-                    Command="{Binding}"
+                    Command="{Binding OpenPrintPageCommand}"
                     Grid.Row="4">
                 <fa:FontAwesome Icon="Print"
                                 FontSize="20"
@@ -97,6 +175,11 @@
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
                                 Foreground="#434343" />
+                <Button.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Сменить пароль"/>
+                    </ContextMenu>
+                </Button.ContextMenu>
             </Button>
             <Grid Grid.Column="1"
                   Margin="0,12,12,4">
@@ -205,7 +288,7 @@
                 <TextBlock Text="Ни одна запись не выбрана :("
                            TextAlignment="Center"
                            FontSize="32"
-                           Margin="0, 24, 0, 0" />
+                           Margin="0, 24, 0, 0" />  
             </StackPanel>
         </Grid>
         <ContentPresenter x:Name="ContentPresenter"
@@ -291,14 +374,16 @@
                                         Command="{Binding ElementName=View, Path=DataContext.SaveCommand}"
                                         CommandParameter="{Binding}"
                                         Grid.Column="1"
-                                        Height="30"
-                                        Grid.Row="0" />
+                                        Height="35"
+                                        Grid.Row="0" 
+                                        Style="{StaticResource ButtonStyle}"/>
 
                                 <Button Content="Отмена"
                                         Grid.Column="3"
                                         Command="{Binding ElementName=View, Path=DataContext.CancelCommand}"
                                         CommandParameter="{Binding}"
-                                        Grid.Row="0" />
+                                        Grid.Row="0" 
+                                        Style="{StaticResource ButtonStyle}"/>
                             </Grid>
                         </StackPanel>
                     </ScrollViewer>
@@ -323,7 +408,32 @@
                 <Button Content="Отмена"
                         Margin="5"
                         Height="30"
-                        Command="{Binding LoginPopupCancelCommand}">
+                        Command="{Binding PopupCancelCommand}">
+                </Button>
+            </StackPanel>
+        </Popup>
+        <Popup IsOpen="{Binding ChangePasswordPopup}"
+               StaysOpen="True"
+               Placement="Center"
+               Height="210"
+               Width="200"
+               AllowsTransparency="False">
+            <StackPanel Background="LightGray">
+                <Label Content="Старый пароль" />
+                <TextBox Margin="5"
+                         Text="{Binding OldPassword}" />
+                <Label Content="Новый пароль" />
+                <TextBox Margin="5"
+                         Text="{Binding NewPassword}" />
+                <Button Content="Сменить пароль"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding ChangePasswordCommand}">
+                </Button>
+                <Button Content="Отмена"
+                        Margin="5"
+                        Height="30"
+                        Command="{Binding PopupCancelCommand}">
                 </Button>
             </StackPanel>
         </Popup>

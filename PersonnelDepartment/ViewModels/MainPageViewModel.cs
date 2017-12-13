@@ -9,6 +9,8 @@ using System.Data;
 using System.Collections.Generic;
 using PersonnelDepartment.Core.Services.Excel;
 using System.Windows;
+using PersonnelDepartment.Views;
+using System.Windows.Controls;
 
 namespace PersonnelDepartment.ViewModels
 {
@@ -31,7 +33,11 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _importCommand;
         private DelegateCommand _openLoginPopupCommand;
         private DelegateCommand _loginCommand;
-        private DelegateCommand _loginPopupCancelCommand;
+        private DelegateCommand _PopupCancelCommand;
+        private DelegateCommand _openPrintPageCommand;
+        private DelegateCommand _openChangePasswordPopupCommand;
+        private DelegateCommand _popupCancelCommand;
+        private DelegateCommand _changePasswordCommand;
         #endregion
 
 
@@ -78,12 +84,27 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// 
         /// </summary>
+        public bool ChangePasswordPopup { get; set; } = false;
+
+        /// <summary>
+        /// 
+        /// </summary>
         public Visibility AdminVisibility { get; set; } = Visibility.Hidden;
 
         /// <summary>
         /// 
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string OldPassword { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string NewPassword { get; set; }
 
         /// <summary>
         /// 
@@ -144,8 +165,23 @@ namespace PersonnelDepartment.ViewModels
         /// <summary>
         /// 
         /// </summary>
-        public DelegateCommand LoginPopupCancelCommand => _loginPopupCancelCommand ??
-            (_loginPopupCancelCommand = new DelegateCommand(() => LoginPopupCancel()));
+        public DelegateCommand PopupCancelCommand => _popupCancelCommand ??
+            (_popupCancelCommand = new DelegateCommand(() => PopupCancel()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand OpenPrintPageCommand => _openPrintPageCommand ??
+            (_openPrintPageCommand = new DelegateCommand(() => OpenPrintPage()));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DelegateCommand OpenChangePasswordPopupCommand => _openChangePasswordPopupCommand ??
+            (_openChangePasswordPopupCommand = new DelegateCommand(() => OpenChangePasswordPopup()));
+
+        public DelegateCommand ChangePasswordCommand => _changePasswordCommand ??
+            (_changePasswordCommand = new DelegateCommand(() => ChangePassword()));
         #endregion
 
 
@@ -280,9 +316,10 @@ namespace PersonnelDepartment.ViewModels
             LoginPopup = true;
             PopupEnabled = false;
         }
-        private void LoginPopupCancel()
+        private void PopupCancel()
         {
             LoginPopup = false;
+            ChangePasswordPopup = false;
             PopupEnabled = true;
         }
         private async void Login()
@@ -293,6 +330,21 @@ namespace PersonnelDepartment.ViewModels
                 AdminVisibility = Visibility.Visible;
                 PopupEnabled = true;
             }
+        }
+        private void OpenPrintPage()
+        {
+
+        }
+        private void OpenChangePasswordPopup()
+        {
+            ChangePasswordPopup = true;
+            PopupEnabled = false;
+        }
+        private void ChangePassword()
+        {
+            _rootPasswordService.Сhange(OldPassword, NewPassword);
+            ChangePasswordPopup = false;
+            PopupEnabled = true;
         }
 
         public void Dispose()

@@ -119,6 +119,9 @@
     <Compile Include="Core\Services\DataProvider\EmployeeContext.cs" />
     <Compile Include="Core\Services\DataProvider\EmployeeService.cs" />
     <Compile Include="Core\Services\DataProvider\IEmployeeService.cs" />
+    <Compile Include="Views\PrintPage.xaml.cs">
+      <DependentUpon>PrintPage.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\LabelCheckBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -136,6 +139,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrintPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
