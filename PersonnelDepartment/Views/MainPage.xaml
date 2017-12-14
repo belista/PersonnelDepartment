@@ -94,7 +94,8 @@
                                 <SolidColorBrush Color="#cbcbcc" />
                             </Border.BorderBrush>
                             <StackPanel IsItemsHost="True"
-                                        KeyboardNavigation.DirectionalNavigation="Cycle" />
+                                        KeyboardNavigation.DirectionalNavigation="Cycle"
+                                        x:Name="Panel"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="HasDropShadow"
@@ -102,6 +103,12 @@
                                 <Setter TargetName="Border"
                                         Property="Padding"
                                         Value="0,3,0,3" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="Panel"
+                                        Value="LightGray"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -131,6 +138,96 @@
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </ScrollViewer>
                         </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="PopupOkButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="#4c4a48" />
+            <Setter Property="TextElement.Foreground"
+                    Value="White"/>
+            <Setter Property="TextElement.FontWeight"
+                    Value="Bold"/>
+            <Setter Property="TextElement.FontSize"
+                    Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="#4c4a48"
+                                BorderThickness="2"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#777574" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="Black" />
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="PopupCancelButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="#cccccc" />
+            <Setter Property="TextElement.Foreground"
+                    Value="Black"/>
+            <Setter Property="TextElement.FontWeight"
+                    Value="Bold"/>
+            <Setter Property="TextElement.FontSize"
+                    Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding Background}"
+                                BorderThickness="2"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#d8d8d8" />
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="#d8d8d8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="Black" />
+                                <Setter Property="TextElement.Foreground"
+                                        TargetName="border"
+                                        Value="White"/>
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="Black"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -309,7 +406,7 @@
                 <ListView.ContextMenu>
                     <ContextMenu Visibility="{Binding AdminVisibility}">
                         <MenuItem Header="Удалить"
-                                  Command="{Binding RemoveCommand}" />
+                                  Command="{Binding OpenRemovePopupCommand}" />
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
@@ -428,88 +525,196 @@
                 </DataTemplate>
             </ContentPresenter.ContentTemplate>
         </ContentPresenter>
+        
         <Popup IsOpen="{Binding LoginPopup}"
                StaysOpen="True"
                Placement="Center"
-               Height="150"
-               Width="200"
+               Height="145"
+               Width="300"
                AllowsTransparency="False">
-            <StackPanel Background="LightGray">
-                <Label Content="Пароль" />
-                <TextBox Margin="5"
-                         Text="{Binding Password}" />
-                <Button Content="Логин"
-                        Margin="5"
-                        Height="30"
-                        Command="{Binding LoginCommand}">
-                </Button>
-                <Button Content="Отмена"
-                        Margin="5"
-                        Height="30"
-                        Command="{Binding PopupCancelCommand}">
-                </Button>
-            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="#5c5a58" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <Label Content="Логин"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Пароль" />
+                        <TextBox Margin="5"
+                                 Text="{Binding Password}" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Логин"
+                                Margin="5"
+                                Height="30"
+                                Command="{Binding LoginCommand}"
+                                Style="{StaticResource PopupOkButtonStyle}">
+                            </Button>
+                            <Button Content="Отмена"
+                                Margin="5"
+                                Height="30"
+                                Command="{Binding PopupCancelCommand}"
+                                Grid.Column="1"
+                                Style="{StaticResource PopupCancelButtonStyle}">
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Popup>
+        
         <Popup IsOpen="{Binding ChangePasswordPopup}"
                StaysOpen="True"
                Placement="Center"
                Height="210"
-               Width="200"
+               Width="300"
                AllowsTransparency="False">
-            <StackPanel Background="LightGray">
-                <Label Content="Старый пароль" />
-                <TextBox Margin="5"
+            <Border BorderThickness="1" BorderBrush="#5c5a58" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <Label Content="Смена пароля"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Старый пароль" />
+                        <TextBox Margin="5"
                          Text="{Binding OldPassword}" />
-                <Label Content="Новый пароль" />
-                <TextBox Margin="5"
+                        <Label Content="Новый пароль" />
+                        <TextBox Margin="5"
                          Text="{Binding NewPassword}" />
-                <Button Content="Сменить пароль"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Сменить пароль"
                         Margin="5"
                         Height="30"
-                        Command="{Binding ChangePasswordCommand}" />
-                <Button Content="Отмена"
+                        Command="{Binding ChangePasswordCommand}" 
+                        Style="{StaticResource PopupOkButtonStyle}"/>
+                            <Button Content="Отмена"
                         Margin="5"
                         Height="30"
-                        Command="{Binding PopupCancelCommand}" />
-            </StackPanel>
+                        Command="{Binding PopupCancelCommand}" 
+                        Grid.Column="1"
+                        Style="{StaticResource PopupCancelButtonStyle}"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Popup>
+        
         <Popup IsOpen="{Binding ExitPopup}"
                StaysOpen="True"
                Placement="Center"
                Height="110"
                Width="200"
                AllowsTransparency="False">
-            <StackPanel Background="LightGray">
-                <Label Content="Зайти как гость?" 
+            <Border BorderThickness="1" BorderBrush="#5c5a58" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <Label Content="Выход"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2">
+                        <Label Content="Зайти как гость?" 
                        HorizontalAlignment="Center"/>
-                <Button Content="Да"
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Да"
                         Margin="5"
                         Height="30"
-                        Command="{Binding LogGuestCommand}"/>
-                <Button Content="Отмена"
+                        Command="{Binding LogGuestCommand}"
+                        Style="{StaticResource PopupOkButtonStyle}"/>
+                            <Button Content="Отмена"
                         Margin="5"
                         Height="30"
-                        Command="{Binding PopupCancelCommand}" />
-            </StackPanel>
+                        Command="{Binding PopupCancelCommand}"
+                        Grid.Column="1"
+                        Style="{StaticResource PopupCancelButtonStyle}"/>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </Popup>
-        <Popup IsOpen="{Binding ExitPopup}"
+
+        <Popup IsOpen="{Binding RemovePopup}"
                StaysOpen="True"
                Placement="Center"
-               Height="110"
-               Width="200"
+               Height="190"
+               Width="600"
                AllowsTransparency="False">
-            <StackPanel Background="LightGray">
-                <Label Content="Зайти как гость?"
-                       HorizontalAlignment="Center" />
-                <Button Content="Да"
-                        Margin="5"
-                        Height="30"
-                        Command="{Binding LogGuestCommand}" />
-                <Button Content="Отмена"
-                        Margin="5"
-                        Height="30"
-                        Command="{Binding PopupCancelCommand}" />
-            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="#5c5a58" Background="White">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel>
+                        <Label Content="Удалить работника?"/>
+                    </StackPanel>
+
+                    <Grid Grid.Row="2"
+                          Margin="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="70"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <Label Content="Удалить работника?"
+                                   FontSize="20"/>
+                            <Label Content="{Binding RemoveString}"
+                                   FontSize="15"/>
+                        </StackPanel>
+
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="100"/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Удалить"
+                                    Margin="5"
+                                    Height="35"
+                                    Command="{Binding RemoveCommand}"
+                                    Grid.Column="1"
+                                    Style="{StaticResource PopupOkButtonStyle}"/>
+                            <Button Content="Отмена"
+                                    Margin="5"
+                                    Height="35"
+                                    Command="{Binding PopupCancelCommand}"
+                                    Grid.Column="2"
+                                    Style="{StaticResource PopupCancelButtonStyle}"/>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Border>
         </Popup>
     </Grid>
 </Page>

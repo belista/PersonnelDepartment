@@ -39,6 +39,7 @@ namespace PersonnelDepartment.ViewModels
         private DelegateCommand _changePasswordCommand;
         private DelegateCommand _openExitPopupCommand;
         private DelegateCommand _logGuestCommand;
+        private DelegateCommand _openRemovePopupCommand;
         #endregion
 
         #region Ctors
@@ -124,6 +125,23 @@ namespace PersonnelDepartment.ViewModels
         /// Popup удаления.
         /// </summary>
         public bool RemovePopup { get; set; } = false;
+
+        /// <summary>
+        /// Строка удаления.
+        /// </summary>
+        public string RemoveString
+        {
+            get
+            {
+                if (SelectedEmployee != null)
+                {
+                    return $"{SelectedEmployee.FirstSurname} {SelectedEmployee.Name} {SelectedEmployee.Patronymic} будет удален из базы данных.";
+                }
+
+                return default(string);
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -173,43 +191,49 @@ namespace PersonnelDepartment.ViewModels
         /// Команда логина.
         /// </summary>
         public DelegateCommand LoginCommand => _loginCommand ??
-            (_loginCommand = new DelegateCommand(() => Login()));
+            (_loginCommand = new DelegateCommand(Login));
 
         /// <summary>
         /// Команда отмены в Popup.
         /// </summary>
         public DelegateCommand PopupCancelCommand => _popupCancelCommand ??
-            (_popupCancelCommand = new DelegateCommand(() => PopupCancel()));
+            (_popupCancelCommand = new DelegateCommand(PopupCancel));
 
         /// <summary>
         /// 
         /// </summary>
         public DelegateCommand OpenPrintPageCommand => _openPrintPageCommand ??
-            (_openPrintPageCommand = new DelegateCommand(() => OpenPrintPage()));
+            (_openPrintPageCommand = new DelegateCommand(OpenPrintPage));
 
         /// <summary>
         /// Команда открытия окна смены пароля.
         /// </summary>
         public DelegateCommand OpenChangePasswordPopupCommand => _openChangePasswordPopupCommand ??
-            (_openChangePasswordPopupCommand = new DelegateCommand(() => OpenChangePasswordPopup()));
+            (_openChangePasswordPopupCommand = new DelegateCommand(OpenChangePasswordPopup));
 
         /// <summary>
         /// Команда смены пароля.
         /// </summary>
         public DelegateCommand ChangePasswordCommand => _changePasswordCommand ??
-            (_changePasswordCommand = new DelegateCommand(() => ChangePassword()));
+            (_changePasswordCommand = new DelegateCommand(ChangePassword));
 
         /// <summary>
         /// Команда открытия окна выхода.
         /// </summary>
         public DelegateCommand OpenExitPopupCommand => _openExitPopupCommand ??
-            (_openExitPopupCommand = new DelegateCommand(() => OpenExitPopup()));
+            (_openExitPopupCommand = new DelegateCommand(OpenExitPopup));
 
         /// <summary>
         /// Команда выхода.
         /// </summary>
         public DelegateCommand LogGuestCommand => _logGuestCommand ??
-            (_logGuestCommand = new DelegateCommand(() => LogGuest()));
+            (_logGuestCommand = new DelegateCommand(LogGuest));
+
+        /// <summary>
+        /// Команда открытия окна удаления.
+        /// </summary>
+        public DelegateCommand OpenRemovePopupCommand => _openRemovePopupCommand ??
+            (_openRemovePopupCommand = new DelegateCommand(OpenRemovePopup));
         #endregion
 
         #region Non-Public Methods
@@ -249,6 +273,8 @@ namespace PersonnelDepartment.ViewModels
             if (await _employeeService.RemoveAsync(SelectedEmployee))
             {
                 Employees.Remove(SelectedEmployee);
+                RemovePopup = false;
+                PopupEnabled = true;
             }
         }
 
@@ -417,6 +443,12 @@ namespace PersonnelDepartment.ViewModels
             PopupEnabled = true;
             AdminVisibility = Visibility.Hidden;
             GuestVisibility = Visibility.Visible;
+        }
+
+        private void OpenRemovePopup()
+        {
+            RemovePopup = true;
+            PopupEnabled = false;
         }
         #endregion
 

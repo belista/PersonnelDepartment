@@ -80,9 +80,11 @@ namespace PersonnelDepartment.Core.Services.DataProvider
             {
                 try
                 {
-                    if (employee != null)
+                    var des = _db.Employees.FirstOrDefault(e => e.Id == employee.Id);
+
+                    if (des != null)
                     {
-                        _db.Employees.Remove(employee);
+                        _db.Employees.Remove(des);
                         _db.SaveChanges();
                         return true;
                     }
