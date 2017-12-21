@@ -427,7 +427,7 @@
                         VerticalAlignment="Center">
                 <Viewbox Width="200"
                          Height="200">
-                    <Image Source="pack://application:,,,/Assets/smile.png" />
+                    <Image Source="pack://application:,,,/Assets/cat.png" />
                 </Viewbox>
                 <TextBlock Text="Ни одна запись не выбрана :("
                            TextAlignment="Center"
