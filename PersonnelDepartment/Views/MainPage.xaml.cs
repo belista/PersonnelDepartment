@@ -34,6 +34,12 @@ namespace PersonnelDepartment.Views
                 employees.Add(item);
             }
 
+            if (!(employees.Count > 0))
+            {
+                MessageBox.Show("Количество записей равно нулю");
+                return;
+            }
+
             PrintService.Print(employees);
         }
 
@@ -45,7 +51,7 @@ namespace PersonnelDepartment.Views
 
             if (employees.First() == null)
             {
-                MessageBox.Show("Выберите работника!");
+                MessageBox.Show("Выберите работника");
                 return;
             }
 
