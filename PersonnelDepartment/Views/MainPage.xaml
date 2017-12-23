@@ -29,6 +29,39 @@
                                      Value="true">
                                 <Setter Property="Background"
                                         TargetName="border"
+                                        Value="#0e294b" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="#002137" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AddButtonStyle"
+               TargetType="{x:Type Button}">
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                x:Name="border">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="true">
+                                <Setter Property="Background"
+                                        TargetName="border"
                                         Value="#cbcbcc" />
                             </Trigger>
                             <Trigger Property="IsPressed"
@@ -42,7 +75,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
+        
         <Style x:Key="ButtonStyle"
                TargetType="{x:Type Button}">
             <Setter Property="Background"
@@ -146,7 +179,7 @@
         <Style x:Key="PopupOkButtonStyle"
                TargetType="{x:Type Button}">
             <Setter Property="Background"
-                    Value="#4c4a48" />
+                    Value="#003366" />
             <Setter Property="TextElement.Foreground"
                     Value="White"/>
             <Setter Property="TextElement.FontWeight"
@@ -157,7 +190,7 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}"
-                                BorderBrush="#4c4a48"
+                                BorderBrush="#003366"
                                 BorderThickness="2"
                                 x:Name="border">
                             <ContentPresenter HorizontalAlignment="Center"
@@ -168,7 +201,7 @@
                                      Value="true">
                                 <Setter Property="Background"
                                         TargetName="border"
-                                        Value="#777574" />
+                                        Value="#08457e" />
                             </Trigger>
                             <Trigger Property="IsPressed"
                                      Value="true">
@@ -255,8 +288,8 @@
                 <RowDefinition Height="48" />
             </Grid.RowDefinitions>
 
-            <Rectangle Fill="#f1f1f1"
-                       Grid.RowSpan="5" />
+            <Rectangle Fill="#003366"
+                       Grid.RowSpan="7" />
             <Button ToolTip="Смена пароля"
                     Height="48"
                     Command="{Binding OpenChangePasswordPopupCommand}"
@@ -264,7 +297,7 @@
                     VerticalAlignment="Top">
                 <fa:FontAwesome Icon="Cog"
                                 FontSize="20"
-                                Foreground="#434343"/>
+                                Foreground="White"/>
             </Button>
             <Button ToolTip="Экспорт"
                     Height="48"
@@ -273,7 +306,7 @@
                     Grid.Row="2">
                 <fa:FontAwesome Icon="Upload"
                                 FontSize="20"
-                                Foreground="#434343" />
+                                Foreground="White" />
             </Button>
             <Button ToolTip="Импорт"
                     Height="48"
@@ -282,7 +315,7 @@
                     Visibility="{Binding AdminVisibility}">
                 <fa:FontAwesome Icon="Download"
                                 FontSize="20"
-                                Foreground="#434343" />
+                                Foreground="White" />
             </Button>
             <Button ToolTip="Печать Работающих"
                     Height="48"
@@ -290,7 +323,7 @@
                     Grid.Row="4">
                 <fa:FontAwesome Icon="Print"
                                 FontSize="20"
-                                Foreground="#434343"/>
+                                Foreground="White"/>
             </Button>
             <Button ToolTip="Печать работника"
                     Height="48"
@@ -298,7 +331,7 @@
                     Grid.Row="5">
                 <fa:FontAwesome Icon="Print"
                                 FontSize="20"
-                                Foreground="#434343"/>
+                                Foreground="White"/>
             </Button>
             <Button ToolTip="Логин"
                     Height="48"
@@ -308,7 +341,7 @@
                     Visibility="{Binding GuestVisibility}">
                 <fa:FontAwesome Icon="Unlock"
                                 FontSize="20"
-                                Foreground="#434343" />
+                                Foreground="White" />
             </Button>
             <Button ToolTip="Выход"
                     Height="48"
@@ -318,7 +351,7 @@
                     Visibility="{Binding AdminVisibility}">
                 <fa:FontAwesome Icon="Lock"
                                 FontSize="20"
-                                Foreground="#434343" />
+                                Foreground="White" />
                 <Button.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Сменить пароль" />
@@ -326,7 +359,7 @@
                 </Button.ContextMenu>
             </Button>
             <Grid Grid.Column="1"
-                  Margin="0,12,12,4">
+                  Margin="10,12,12,4">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60" />
                     <RowDefinition Height="32" />
@@ -348,7 +381,8 @@
                         Width="48"
                         Height="48"
                         HorizontalAlignment="Right"
-                        Margin="30 0 0 0">
+                        Margin="30 0 0 0"
+                        Style="{StaticResource AddButtonStyle}">
                     <fa:FontAwesome Icon="Plus"
                                     FontSize="20"
                                     Foreground="#434343" />
@@ -387,12 +421,14 @@
                             <Trigger Property="IsMouseOver"
                                      Value="True">
                                 <Setter Property="Background"
-                                        Value="#dedede" />
+                                        Value="#007fff" />
                             </Trigger>
                             <Trigger Property="IsSelected"
                                      Value="true">
                                 <Setter Property="Background"
-                                        Value="#9b9a99" />
+                                        Value="#003366" />
+                                <Setter Property="Foreground"
+                                        Value="White"/>
                             </Trigger>
                         </Style.Triggers>
                     </Style>
