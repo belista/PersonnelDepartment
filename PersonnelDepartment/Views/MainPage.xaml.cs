@@ -23,6 +23,11 @@ namespace PersonnelDepartment.Views
             DataContext = new MainPageViewModel();
         }
 
+        /// <summary>
+        /// Печать работающих на данный момент.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var emloyeeList = _db.Employees.Where(emp => emp.DateOfDismissal == null);
@@ -43,6 +48,11 @@ namespace PersonnelDepartment.Views
             PrintService.Print(employees);
         }
 
+        /// <summary>
+        /// Печать работника.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var employees = new List<Employee>();

@@ -117,7 +117,7 @@ namespace PersonnelDepartment.Models
                 {
                     if (DateTime.Compare(dod,EmploymentDate) < 0)
                     {
-                        MessageBox.Show("Error");
+                        MessageBox.Show("Дата увольнения не может быть раньше даты найма.");
                         return;
                     }
                 }

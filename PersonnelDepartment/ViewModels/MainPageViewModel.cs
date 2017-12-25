@@ -200,12 +200,6 @@ namespace PersonnelDepartment.ViewModels
             (_popupCancelCommand = new DelegateCommand(PopupCancel));
 
         /// <summary>
-        /// 
-        /// </summary>
-        public DelegateCommand OpenPrintPageCommand => _openPrintPageCommand ??
-            (_openPrintPageCommand = new DelegateCommand(OpenPrintPage));
-
-        /// <summary>
         /// Команда открытия окна смены пароля.
         /// </summary>
         public DelegateCommand OpenChangePasswordPopupCommand => _openChangePasswordPopupCommand ??
@@ -252,6 +246,9 @@ namespace PersonnelDepartment.ViewModels
             Employees = new ObservableCollection<Employee>(Employees.OrderBy(i => i.FirstSurname));
         }
 
+        /// <summary>
+        /// Добавление работника.
+        /// </summary>
         private void AddEmployee()
         {
             var empl = new Employee();
@@ -259,7 +256,10 @@ namespace PersonnelDepartment.ViewModels
             SelectedEmployee = empl;
         }
 
-
+        /// <summary>
+        /// Сохранение работника в бд.
+        /// </summary>
+        /// <param name="empl"></param>
         private async void SaveEmployee(Employee empl)
         {
             if (!await _employeeService.SaveOrUpdateAsync(empl))
@@ -268,6 +268,9 @@ namespace PersonnelDepartment.ViewModels
             }
         }
 
+        /// <summary>
+        /// Удаление работника.
+        /// </summary>
         private async void RemoveEmployee()
         {
             if (await _employeeService.RemoveAsync(SelectedEmployee))
@@ -278,7 +281,9 @@ namespace PersonnelDepartment.ViewModels
             }
         }
 
-
+        /// <summary>
+        /// Метод поиска.
+        /// </summary>
         private void OnQueryStringChanged()
         {
             if (!string.IsNullOrWhiteSpace(QueryString))
@@ -304,6 +309,9 @@ namespace PersonnelDepartment.ViewModels
             }
         }
 
+        /// <summary>
+        /// Метод отмены.
+        /// </summary>
         private void Cancel()
         {
             Employees.Clear();
@@ -313,6 +321,9 @@ namespace PersonnelDepartment.ViewModels
             SelectedEmployee = null;
         }
 
+        /// <summary>
+        /// Преобразование данных в DataTable.
+        /// </summary>
         private void GetData()
         {
             var dataTable = new DataTable();
@@ -324,11 +335,18 @@ namespace PersonnelDepartment.ViewModels
             }
         }
 
+        /// <summary>
+        /// Экспорт.
+        /// </summary>
+        /// <param name="dt"></param>
         private void ExportExcel(DataTable dt)
         {
             _excelService.SaveExcel(dt);
         }
 
+        /// <summary>
+        /// Импорт.
+        /// </summary>
         private async void ImportExcel()
         {
             var dt = _excelService.OpenExcel();
@@ -378,12 +396,18 @@ namespace PersonnelDepartment.ViewModels
             _db.SaveChanges();
         }
 
+        /// <summary>
+        /// Метод открытия LoginPopup.
+        /// </summary>
         private void OpenLoginPopup()
         {
             LoginPopup = true;
             PopupEnabled = false;
         }
 
+        /// <summary>
+        /// Отмена в попапе.
+        /// </summary>
         private void PopupCancel()
         {
             LoginPopup = false;
@@ -393,6 +417,9 @@ namespace PersonnelDepartment.ViewModels
             PopupEnabled = true;
         }
 
+        /// <summary>
+        /// Логин.
+        /// </summary>
         private async void Login()
         {
             if (!await _rootPasswordService.Login(Password))
@@ -407,17 +434,18 @@ namespace PersonnelDepartment.ViewModels
             Password = null;
         }
 
-        private void OpenPrintPage()
-        {
-
-        }
-
+        /// <summary>
+        /// Метод открытия ChangePasswordPopup.
+        /// </summary>
         private void OpenChangePasswordPopup()
         {
             ChangePasswordPopup = true;
             PopupEnabled = false;
         }
 
+        /// <summary>
+        /// Смена пароля.
+        /// </summary>
         private async void ChangePassword()
         {
             if (!await _rootPasswordService.Сhange(OldPassword, NewPassword))
@@ -431,12 +459,18 @@ namespace PersonnelDepartment.ViewModels
             NewPassword = null;
         }
 
+        /// <summary>
+        /// Метод открытия ExitPopup.
+        /// </summary>
         private void OpenExitPopup()
         {
             ExitPopup = true;
             PopupEnabled = false;
         }
 
+        /// <summary>
+        /// Гость.
+        /// </summary>
         private void LogGuest()
         {
             ExitPopup = false;
@@ -445,13 +479,16 @@ namespace PersonnelDepartment.ViewModels
             GuestVisibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// Метод открытия RemovePopup.
+        /// </summary>
         private void OpenRemovePopup()
         {
             RemovePopup = true;
             PopupEnabled = false;
         }
         #endregion
-
+        
         public void Dispose()
         {
             ((IDisposable)_db).Dispose();
