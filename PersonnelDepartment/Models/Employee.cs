@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Windows;
 
 namespace PersonnelDepartment.Models
 {
@@ -10,6 +11,7 @@ namespace PersonnelDepartment.Models
     [DebuggerDisplay("UserName - {FullName}, Id - {Id}")]
     public class Employee : INotifyPropertyChanged
     {
+        private DateTime? _dateOfDismissal;
         /// <summary>
         /// Идентификатор работника.
         /// </summary>
@@ -103,7 +105,25 @@ namespace PersonnelDepartment.Models
         /// <summary>
         /// Дата увольнения.
         /// </summary>
-        public DateTime? DateOfDismissal { get; set; }
+        public DateTime? DateOfDismissal
+        {
+            get
+            {
+                return _dateOfDismissal;
+            }
+            set
+            {
+                if (DateTime.TryParse(value.ToString(), out DateTime dod))
+                {
+                    if (DateTime.Compare(dod,EmploymentDate) < 0)
+                    {
+                        MessageBox.Show("Error");
+                        return;
+                    }
+                }
+                _dateOfDismissal = value;
+            }
+        }
 
         /// <summary>
         /// Дата приема на работу.
