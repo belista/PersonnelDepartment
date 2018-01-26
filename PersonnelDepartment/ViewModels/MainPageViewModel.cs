@@ -351,48 +351,52 @@ namespace PersonnelDepartment.ViewModels
         {
             var dt = _excelService.OpenExcel();
 
-            if (dt.Rows != null)
+            if (dt != null)
             {
-                Employees.Clear();
-                _db.Employees.RemoveRange(_db.Employees);
-                _db.SaveChanges();
-                await _employeeService.Reset();
-            }
-
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                DataRow dr = dt.Rows[i];
-
-                var employee = new Employee
+                if (dt.Rows != null)
                 {
-                    FirstSurname = dr["FirstSurname"].ToString(),
-                    SecondSurname = dr["SecondSurname"].ToString(),
-                    ThirdSurname = dr["ThirdSurname"].ToString(),
-                    Name = dr["Name"].ToString(),
-                    Patronymic = dr["Patronymic"].ToString(),
-                    PassportInfo = dr["PassportInfo"].ToString(),
-                    Registration = dr["Registration"].ToString(),
-                    RegistrationNumber = dr["RegistrationNumber"].ToString(),
-                    Phone = Convert.ToInt32(dr["Phone"]),
-                    FirstPosition = dr["FirstPosition"].ToString(),
-                    SecondPosition = dr["SecondPosition"].ToString(),
-                    ThirdPosition = dr["ThirdPosition"].ToString(),
-                    FirstOrder = dr["FirstOrder"].ToString(),
-                    SecondOrder = dr["SecondOrder"].ToString(),
-                    Additionally = dr["Additionally"].ToString(),
-                    EmploymentDate = Convert.ToDateTime(dr["EmploymentDate"]),
-                    DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"])
-                };
-
-                if (DateTime.TryParse(dr["DateOfDismissal"].ToString(), out DateTime dod))
-                {
-                    employee.DateOfDismissal = dod;
+                    Employees.Clear();
+                    _db.Employees.RemoveRange(_db.Employees);
+                    _db.SaveChanges();
+                    await _employeeService.Reset();
                 }
 
-                Employees.Add(employee);
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    DataRow dr = dt.Rows[i];
 
-                _db.Employees.Add(employee);
+                    var employee = new Employee
+                    {
+                        FirstSurname = dr["FirstSurname"].ToString(),
+                        SecondSurname = dr["SecondSurname"].ToString(),
+                        ThirdSurname = dr["ThirdSurname"].ToString(),
+                        Name = dr["Name"].ToString(),
+                        Patronymic = dr["Patronymic"].ToString(),
+                        PassportInfo = dr["PassportInfo"].ToString(),
+                        Registration = dr["Registration"].ToString(),
+                        RegistrationNumber = dr["RegistrationNumber"].ToString(),
+                        Phone = Convert.ToInt32(dr["Phone"]),
+                        FirstPosition = dr["FirstPosition"].ToString(),
+                        SecondPosition = dr["SecondPosition"].ToString(),
+                        ThirdPosition = dr["ThirdPosition"].ToString(),
+                        FirstOrder = dr["FirstOrder"].ToString(),
+                        SecondOrder = dr["SecondOrder"].ToString(),
+                        Additionally = dr["Additionally"].ToString(),
+                        EmploymentDate = Convert.ToDateTime(dr["EmploymentDate"]),
+                        DateOfBirth = Convert.ToDateTime(dr["DateOfBirth"])
+                    };
+
+                    if (DateTime.TryParse(dr["DateOfDismissal"].ToString(), out DateTime dod))
+                    {
+                        employee.DateOfDismissal = dod;
+                    }
+
+                    Employees.Add(employee);
+
+                    _db.Employees.Add(employee);
+                }
             }
+            
             _db.SaveChanges();
         }
 

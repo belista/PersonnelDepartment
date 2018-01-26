@@ -508,7 +508,7 @@
                                                    VisibilityBorder="Visible" />
                             <controls:LabelTextBox Key="Паспортные данные"
                                                    Value="{Binding PassportInfo}" />
-                            <controls:LabelTextBox Key="Проживание"
+                            <controls:LabelTextBox Key="Адрес"
                                                    Value="{Binding Registration}" />
                             <controls:LabelTextBox Key="ИНН"
                                                    Value="{Binding RegistrationNumber}" />
@@ -586,7 +586,7 @@
                     </Grid.RowDefinitions>
 
                     <StackPanel>
-                        <Label Content="Логин"/>
+                        <Label Content="Вход"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="2">

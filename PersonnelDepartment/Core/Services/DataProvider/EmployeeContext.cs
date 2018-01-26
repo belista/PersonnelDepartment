@@ -5,6 +5,9 @@ namespace PersonnelDepartment.Core.Services.DataProvider
 {
     public class EmployeeContext : DbContext
     {
+        //(localdb)\MSSQLLocalDB
+        //.\SQLEXPRESS
+
         private static EmployeeContext _instance;
         private static object syncObject = new object();
 
