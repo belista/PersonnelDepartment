@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 using System.Reflection;
+using System.IO;
 
 namespace PersonnelDepartment.Core.Services.Excel
 {
@@ -52,27 +53,31 @@ namespace PersonnelDepartment.Core.Services.Excel
         /// <param name="dt"></param>
         public void SaveExcel(DataTable dt)
         {
-            SaveFileDialog dlg = new SaveFileDialog
-            {
-                FileName = "Document", // Имя по-умолчанию
-                DefaultExt = ".xls", // Расширение по-умолчанию
-                Filter = "Книга Excel|*.xls" // Фильтр по расширениям
-            };
+            //SaveFileDialog dlg = new SaveFileDialog
+            //{
+            //    FileName = "Document", // Имя по-умолчанию
+            //    DefaultExt = ".xls", // Расширение по-умолчанию
+            //    Filter = "Книга Excel|*.xls" // Фильтр по расширениям
+            //};
 
-            // Показываем диалог пользователю
-            bool? result = dlg.ShowDialog();
+            //// Показываем диалог пользователю
+            //bool? result = dlg.ShowDialog();
 
-            // Обработка результата работы диалога
-            if (result == true)
-            {
-                // Получаем из диалога полное имя файла
-                string filename = dlg.FileName;
-                //Данные для записи.
-                Workbook book = new Workbook();
-                Worksheet sheet = book.Worksheets[0];
-                sheet.InsertDataTable(dt, true, 1, 1);
-                book.SaveToFile(dlg.FileName);
-            }
+            //// Обработка результата работы диалога
+            //if (result == true)
+            //{
+            //    // Получаем из диалога полное имя файла
+            //    string filename = dlg.FileName;
+            //    //Данные для записи.
+            //    Workbook book = new Workbook();
+            //    Worksheet sheet = book.Worksheets[0];
+            //    sheet.InsertDataTable(dt, true, 1, 1);
+            //    book.SaveToFile(dlg.FileName);
+            //}
+            Workbook book = new Workbook();
+            Worksheet sheet = book.Worksheets[0];
+            sheet.InsertDataTable(dt, true, 1, 1);
+            book.SaveToFile($@"{Directory.GetCurrentDirectory()}\\{DateTime.Now.Date.ToShortDateString()}.xls");
         }
 
         /// <summary>

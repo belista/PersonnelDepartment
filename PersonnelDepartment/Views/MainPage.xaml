@@ -320,7 +320,8 @@
             <Button ToolTip="Печать Работающих"
                     Height="48"
                     Click="Button_Click"
-                    Grid.Row="4">
+                    Grid.Row="4"
+                    Visibility="{Binding AdminVisibility}">
                 <fa:FontAwesome Icon="Print"
                                 FontSize="20"
                                 Foreground="White"/>
@@ -328,7 +329,8 @@
             <Button ToolTip="Печать работника"
                     Height="48"
                     Click="Button_Click_1"
-                    Grid.Row="5">
+                    Grid.Row="5"
+                    Visibility="{Binding AdminVisibility}">
                 <fa:FontAwesome Icon="Print"
                                 FontSize="20"
                                 Foreground="White"/>
